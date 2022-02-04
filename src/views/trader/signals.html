@@ -1,0 +1,118 @@
+ <header class="nk-header page-header is-transparent is-sticky is-shrink" id="header">
+        <%- include("./../components/header.html",{
+            title : "SMART AI SIGNAL",
+            description : "Free copy trade service, Win rate 80-90%"
+        }) %>
+</header>
+<script>
+    
+</script>
+<script type="text/javascript">
+    
+    var connection = new WebSocket('ws://45.77.37.251:9090');
+
+    connection.onopen = function () {
+      //connection.send('Ping'); // Send the message 'Ping' to the server
+      console.log('WebSocket Ping ');
+    };
+
+    // Log errors
+    connection.onerror = function (error) {
+      console.log('WebSocket Error ' + error);
+    };
+
+    // Log messages from the server
+    connection.onmessage = function (e) {
+      console.log('Server: ' + e.data);
+    };
+</script> 
+<main class="nk-pages">
+
+    <section class="section bg-transparent over-up over-up-xl-s2 pdt-0 ov-v" style="padding-bottom:10px; z-index:9;">
+        <div class="ui-mask-right ui-mask-s8"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="feature feature-center card bg-white  animated" data-animate="fadeInUp" data-delay="0.9">
+                            
+                            <div class="d-flex justify-content-between">
+                                
+                                <div class="">
+                                    <a class="btn btn-info btn-sm" href="/trader?g=forex"><i class="fa fa-copy"></i> Forex</a>
+                                    <a class="btn btn-primary  btn-sm"  href="/trader?g=stock"><i class="fa fa-copy"></i> Stock</a>
+                                    <a class="btn btn-primary btn-sm"  href="/trader?g=crypto"><i class="fa fa-copy"></i> Crypto</a>
+
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-sm"><i class="fa fa-copy"></i> Download Serial</button>
+                                    <button class="btn btn-primary btn-sm"><i class="fa fa-copy"></i> Copy Tool</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- .col -->
+                    
+                </div><!-- .row -->
+        </div>
+    </section>
+    
+    <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
+        <div class="container">
+            <div class="nk-block nk-block-features-s3">
+                <h4>Runing Orders</h4>
+                <div class="row">
+                    <% order.forEach(function(data) { %>
+                    <div class="col-xs-12 col-md-3 mb-3">
+                        <div class="card">
+                            <span style="position: absolute;right:-5px;top:-5px; font-size: 11px; padding: 3px;text-transform:none;line-height:12px;" class="badge badge-<% if(data.type === 'buy'){ %>success<% } else{ %>danger<% } %>"><% if(data.type === 'buy'){ %>Long<% } else{ %>Short<% } %></span>
+                            <b class="<% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>"><%= data.symbol %> - <%= data.timefream %></b>
+                            <div style="">
+                                <div><i class="fa fa-calendar <% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>" aria-hidden="true"></i> <%= data.opentime %></div>
+                                
+                                <div><i class="fa fa-signal <% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>" aria-hidden="true"></i> <% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %> : <%= data.open %></div>
+                                <hr>
+                                <div>SL : <%= data.sl %></div>
+                                <div>TP : <%= data.tp %></div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
+        <div class="container">
+            <div class="nk-block nk-block-features-s3">
+                <h4>Finish Orders</h4>
+                <div class="row">
+                    <% orderfinish.forEach(function(data) { %>
+                    <div class="col-xs-12 col-md-3 mb-3">
+                        <div class="card">
+                            <b class="<% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>"><%= data.symbol %> - <%= data.timefream %></b>
+                            <div style="">
+                                <div><i class="fa fa-calendar <% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>" aria-hidden="true"></i> <%= data.closetime %></div>
+                                
+                                <div><i class="fa fa-signal <% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>" aria-hidden="true"></i> <% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %> : <%= data.open %></div>
+                                <hr>
+                                <div>Close : <%= data.close %></div>
+                                <div><b class="text-<% if(data.profit > 0 ){ %>success<% } else{ %>danger<% } %> "><% if(data.profit > 0 ){ %>Win<% } else{ %>Loss<% } %> </b> : <%= data.profit_pips %> PIP</div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+            
+</main>
+<footer class="nk-footer bg-theme-grad ov-h">
+        <%- include("./../components/footer.html") %>
+</footer>

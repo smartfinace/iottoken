@@ -43,7 +43,7 @@ gulp.task("assets", function () {
 gulp.task('web3', function() {
     
     gulp.src([
-           // 'node_modules/socket.io/client-dist/socket.io.js',
+            //'node_modules/socket.io/client-dist/socket.io.js',
             'node_modules/web3/dist/web3.min.js',
             'node_modules/moment/moment.js',
             'node_modules/axios/dist/axios.js',
@@ -65,7 +65,12 @@ gulp.task('web3', function() {
         //.pipe(uglify())
         .pipe(gulp.dest("./dist/public/assets/js"))
         .pipe(browserSync.stream());
-
+    
+    gulp.src(['node_modules/socket.io/client-dist/socket.io.js'])
+            .pipe(concat('socket.js'))
+            //.pipe(uglify())
+            .pipe(gulp.dest("./dist/public/assets/js"))
+            .pipe(browserSync.stream());
     gulp.src(['./src/public/blockchain/blockchain.js'])
             .pipe(concat('blockchain.js'))
             //.pipe(uglify())
