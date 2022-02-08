@@ -5,10 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start:gulp": "npm-run-all gulp start",
+    "start:admin": "npm-run-all gulp admin",
     "gulp": "gulp",
     "webpack": "webpack",
     "start": "node ./dist/app.js",
-    "dev": "nodemon --watch src -e ts,ejs,html --exec npm run start:gulp"
+    "admin": "node ./dist/admin.js",
+    "dev": "nodemon --watch src -e ts,ejs,html --exec npm run start:gulp",
+    "dev:admin": "nodemon --watch src -e ts,ejs,html --exec npm run start:admin"
   },
   "keywords": [],
   "author": "",

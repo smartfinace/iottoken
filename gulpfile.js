@@ -35,6 +35,11 @@ gulp.task("views", function () {
     return gulp.src("./src/views/**/*.html").pipe(gulp.dest("./dist/views"));
 });
 
+// Task which would just create a copy of the current views directory in dist directory
+gulp.task("admin", function () {
+    return gulp.src("./src/admin/**/*.html").pipe(gulp.dest("./dist/admin"));
+});
+
 // Task which would just create a copy of the current static assets directory in dist directory
 gulp.task("assets", function () {
     return gulp.src("./src/assets/**/*").pipe(gulp.dest("./dist/public/assets"));
@@ -101,6 +106,6 @@ gulp.task('web3', function() {
 });
 
 // The default task which runs at start of the gulpfile.js
-gulp.task("default", gulp.series("build-clean","typescript", "views", "assets", "web3","datajson"), () => {
+gulp.task("default", gulp.series("build-clean","typescript", "views", "assets","admin", "web3","datajson"), () => {
     console.log("Done");
 });

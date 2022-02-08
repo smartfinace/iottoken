@@ -73,7 +73,7 @@
                                 <div><i class="fa fa-signal <% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>" aria-hidden="true"></i> <% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %> : <%= data.open %></div>
                                 <hr>
                                 <div>SL : <%= data.sl %></div>
-                                <div>TP : <%= data.tp %></div>
+                                <div>TP : <%= data.tp %></div> 
                             </div>
                         </div>
                     </div>
@@ -110,6 +110,19 @@
         </div>
     </section>
 
+    <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
+        <div class="container">
+            <div class="nk-block nk-block-features-s3">
+                
+                <div>
+                    <a class="badge badge-primary" href="/trader/signals.html">All</a>
+                    <% symbol.forEach(function(data) { %>
+                    <a class="badge badge-secondary" href="/trader/signals.html?s=<%= data.symbol%>"><%= data.symbol%></a>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </section>
 
             
 </main>

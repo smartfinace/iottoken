@@ -10,10 +10,16 @@ export async function getOrders(id:number=0) : Promise<Response | void>{
     }
     //res.json(posts[0]);
 }
-export async function getRunOrders(limit:number=8,page:number=1){
+export async function getRunOrders(limit:number=8,page:number=1, search:any=""){
+    var sql = "";
     try {
     const conn = await connect();
-    const [rows, fields] = await conn.query("SELECT *, DATE_FORMAT(opentime, '%d-%m-%Y %H:%i') as opentime, DATE_FORMAT(closetime, '%d-%m-%Y %H:%i') as closetime FROM mt4_orders WHERE close IS NULL ORDER BY id DESC LIMIT "+limit)  as any;
+    if(search == ""){
+        sql = "SELECT *, DATE_FORMAT(opentime, '%d-%m-%Y %H:%i') as opentime, DATE_FORMAT(closetime, '%d-%m-%Y %H:%i') as closetime FROM mt4_orders WHERE close IS NULL ORDER BY id DESC LIMIT "+limit;
+    }else{
+        sql = "SELECT *, DATE_FORMAT(opentime, '%d-%m-%Y %H:%i') as opentime, DATE_FORMAT(closetime, '%d-%m-%Y %H:%i') as closetime FROM mt4_orders   WHERE symbol LIKE '%"+search+"%' AND close IS NULL ORDER BY id DESC LIMIT "+limit;
+    }
+    const [rows, fields] = await conn.query(sql)  as any;
     return rows;
     }
     catch (e) {
@@ -34,10 +40,22 @@ export async function getFinishOrders(){
     //res.json(posts[0]);
 }
 
-export async function createOrders(obj = {symbol : "", type : "", open : 0, sl : 0, tp : 0, message_id : 0, tf : ""}) {
+export async function createOrders(obj = {symbol : "", type : "", open : 0, sl : 0, tp : 0, message_id : 0, tf : "", chart : ""}) {
     try {
     const conn = await connect();
-    await conn.query('INSERT INTO mt4_orders SET symbol="'+obj.symbol+'", type="'+obj.type+'", open="'+obj.open+'", sl="'+obj.sl+'", tp="'+obj.tp+'", telegram_id="'+obj.message_id+'", timefream="'+obj.tf+'"');
+    await conn.query('INSERT INTO mt4_orders SET symbol="'+obj.symbol+'", type="'+obj.type+'", open="'+obj.open+'", sl="'+obj.sl+'", tp="'+obj.tp+'", telegram_id="'+obj.message_id+'", timefream="'+obj.tf+'", chart="'+obj.chart+'"');
+    return true;
+    }
+    catch (e) {
+        console.log(e)
+    }
+    return true;
+}
+
+export async function deleteOrders(obj = {id : ""}) {
+    try {
+    const conn = await connect();
+    await conn.query('DELETE FROM mt4_orders WHERE id="'+obj.id+'"');
     return true;
     }
     catch (e) {

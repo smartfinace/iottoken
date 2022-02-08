@@ -1,0 +1,83 @@
+<form action="/trader/create.html" method="post">
+<h4 class="d-flex justify-content-between">Create Orders
+  <div>
+    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+  </div>
+</h4>
+
+ 
+<div class="row">
+  <div class="col-sm-7">
+
+      <div class="form-group row">
+        
+        <div class="col-sm-6">
+          <label for="staticEmail" class="col-form-label">Type</label>
+          <select class="form-control" name="type" required>
+            <option value="">-----</option>
+            <option value="buy">Long</option>
+            <option value="sell">Short</option>
+          </select>
+        </div>
+
+        <div class="col-sm-6">
+          <label for="staticEmail" class="col-form-label">Symbol</label>
+         
+          
+          <select class="form-control" required name="symbol">
+            <option value="">-----</option>
+            <% symbol.forEach(function(data) { %>
+            <option value="<%= data.symbol%>"><%= data.symbol%></option>
+            <% }); %>
+          </select>
+        </div>
+
+
+      </div>
+
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Chart</label>
+        <input type="text" name="chart" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Open</label>
+        <input type="text" class="form-control" name="open" required>
+      </div>
+
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Stoploss</label>
+        <input type="text" class="form-control" name="sl" required>
+      </div>
+
+
+      <div class="form-group">
+        <label for="exampleInputPassword1">Takeprofit</label>
+        <input type="text" class="form-control" name="tp" required>
+      </div>
+
+
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+  <div class="col-sm-5">
+      <b>Extract Contents</b>
+      <textarea class="form-control" id="extractSignalTxt" style="height:300px;"></textarea>
+      <button type="button" id="extractSignal" class="btn btn-sm btn-info">Extract</button>
+  </div>
+</div>
+</form>
+<script type="text/javascript">
+  $("#extractSignal").on("click", function(){
+      var code = $("#extractSignalTxt").val();
+      const myArray = code.split("\n");
+      const first = myArray[0].split(" ");
+      var symbol = first[0];
+      var open = first[2];
+      const tp = myArray[1].split(" ")[1];
+      $("input[name=open]").val(open);
+      $("input[name=tp]").val(tp);
+  });
+</script>

@@ -8,7 +8,7 @@ import ejs from 'ejs';
 import TelegramBot from "node-telegram-bot-api";
 import bodyParser from "body-parser";
 import { connect } from './database';
-import { getRunOrders, getFinishOrders, createOrders, closeOrders, getSymbol, updateSymbolTrendParent , updateSymbolTrendChild} from './modules/Orders';
+import { getRunOrders, getFinishOrders, createOrders, closeOrders, getSymbol, getAllSymbol, updateSymbolTrendParent , updateSymbolTrendChild} from './modules/Orders';
 import net from 'net';
 const client = new net.Socket();
 import * as zmq from "zeromq"
@@ -51,14 +51,19 @@ app.get("/", (req: Request, res: Response) => {
 	res.render("index",{page : jsonfile.main})
 });
 
-app.get("/ido", (req: Request, res: Response) => {
-	res.render("ido",{page : jsonfile.ido})
+app.get("/crypto/ido.html", (req: Request, res: Response) => {
+	res.render("crypto/ido",{page : jsonfile.ido})
 });
 
 app.get("/trader/signals.html", async (req: Request, res: Response) => {
-	let order = await getRunOrders();
+	let find = req.query.s;
+	let group = req.query.g;
+	let order = await getRunOrders(8,1,find);
 	let orderfinish = await getFinishOrders();
-	res.render("trader/signals",{page : jsonfile.trader, order : order, orderfinish : orderfinish});
+	let symbol =  await getAllSymbol();
+	
+	
+	res.render("trader/signals",{page : jsonfile.trader, order : order, orderfinish : orderfinish, symbol : symbol});
 });
 
 app.get("/trader/copytrade.html", async (req: Request, res: Response) => {
@@ -94,6 +99,8 @@ app.post("/api/tradingview", async (req: Request, res: Response) => {
 		var msg = "";
 		var type = req.body.type;
 		var tf = req.body.tf;
+		var settp = req.body.tp;
+		var chart = req.body.chart;
 		let zone: any = 0;
 		let tp: any = 0;
 		let open_2: any = 0;
@@ -139,6 +146,9 @@ app.post("/api/tradingview", async (req: Request, res: Response) => {
 						 tp = (Math.fround(open) + (zone * 3)).toFixed(dig);
 					}
 
+					if(Math.fround(settp) > 0){
+						tp = settp;
+					}
 					open_2 = (Math.fround(open) - (zone / 100)*50).toFixed(dig);
 					open_3 = (Math.fround(open) - (zone / 100)*75).toFixed(dig);
 					
@@ -149,7 +159,7 @@ app.post("/api/tradingview", async (req: Request, res: Response) => {
 
 								await sendData({symbol : symbol, type : "buy", open : open, sl : sl, tp : tp, group : telegram.message_id,child : "up", tf: tf, parent :  tf == parent.parentTrend ? "up" : parent.parentTrend});
 
-								createOrders({symbol : symbol, type : "buy", open : open, sl : sl, tp : tp, message_id : telegram.message_id, tf: tf});
+								createOrders({symbol : symbol, type : "buy", open : open, sl : sl, tp : tp, message_id : telegram.message_id, tf: tf, chart : chart});
 								
 							} catch (e) {
 							    console.log('Error socket');
@@ -160,7 +170,7 @@ app.post("/api/tradingview", async (req: Request, res: Response) => {
 								 
 								 sendData({symbol : symbol, type : "buy", open : open, sl : sl, tp : tp, group : 0,child : "up", tf: tf,parent :  tf == parent.parentTrend ? "up" : parent.parentTrend});
 								
-								 createOrders({symbol : symbol, type : "buy", open : open, sl : sl, tp : tp, message_id : 0, tf: tf});
+								 createOrders({symbol : symbol, type : "buy", open : open, sl : sl, tp : tp, message_id : 0, tf: tf, chart: chart});
 
 							} catch (e) {
 							    console.log('Error socket');
@@ -183,6 +193,10 @@ app.post("/api/tradingview", async (req: Request, res: Response) => {
 						 tp = (Math.fround(open) - (zone * 3)).toFixed(dig);
 					}
 
+					if(Math.fround(settp) > 0){
+						tp = settp;
+					}
+
 					open_2 = (Math.fround(open) + (zone / 100)*50).toFixed(dig);
 					open_3 = (Math.fround(open) + (zone / 100)*75).toFixed(dig);
 					
@@ -191,7 +205,7 @@ app.post("/api/tradingview", async (req: Request, res: Response) => {
 							try {
 								await sendData({symbol : symbol, type : "sell",open : open, sl : sl, tp : tp, group : telegram.message_id, tf: tf,child : "down", parent :  tf == parent.parentTrend ? "down" : parent.parentTrend});
 
-    						createOrders({symbol : symbol, type : "sell", open : open, sl : sl, tp : tp, message_id : telegram.message_id, tf: tf});
+    						createOrders({symbol : symbol, type : "sell", open : open, sl : sl, tp : tp, message_id : telegram.message_id, tf: tf, chart: chart});
 							} catch (e) {
 							    console.log('Error socket');
 							}
@@ -202,7 +216,7 @@ app.post("/api/tradingview", async (req: Request, res: Response) => {
 
 								sendData({symbol : symbol, type : "sell",open : open, sl : sl, tp : tp, group : 0, child : "down", tf: tf, parent :  tf == parent.parentTrend ? "down" : parent.parentTrend});
 
-								createOrders({symbol : symbol, type : "sell", open : open, sl : sl, tp : tp, message_id : 0, tf: tf});
+								createOrders({symbol : symbol, type : "sell", open : open, sl : sl, tp : tp, message_id : 0, tf: tf, chart: chart});
     						
 							} catch (e) {
 							    console.log('Error socket');
