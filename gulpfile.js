@@ -106,6 +106,12 @@ gulp.task('web3', function() {
 });
 
 // The default task which runs at start of the gulpfile.js
-gulp.task("default", gulp.series("build-clean","typescript", "views", "assets","admin", "web3","datajson"), () => {
+gulp.task("default", gulp.series("build-clean","typescript", "views", "assets", "web3","datajson"), () => {
+    console.log("Done");
+});
+gulp.task("defaultadmin", gulp.series("typescript", "admin", "datajson"), () => {
+    console.log("Done");
+});
+gulp.task("defaultapi", gulp.series("typescript","datajson"), () => {
     console.log("Done");
 });

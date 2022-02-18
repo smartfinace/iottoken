@@ -1,12 +1,12 @@
  <header class="nk-header page-header is-transparent is-sticky is-shrink" id="header">
         <%- include("./../components/header.html",{
-            title : "SMART AI SIGNAL",
-            description : "Free copy trade service, Win rate 80-90%"
+            title : "SMART AI SIGNAL<br class=\"d-none d-xl-block\"> VIP AI Signal Forex, Crypto, Stock",
+            description : "Free copy trade service, Win rate 80-90%",
+            banner : "./banner_page.html",
+            html : '<div class="cpn-action"><ul class="cpn-links animated" data-animate="fadeInUp" data-delay="1.45"><li><a class="link link-primary" href="https://one.exness.link/a/tjm6vjm6" target="_blank"><em class="link-icon icon-circle ti ti-files"></em> <span>Open Account</span></a></li><li><a class="link link-primary" href="/crypto/ido.html"><em class="link-icon icon-circle ti ti-file"></em> <span>Buy Smart Token</span></a></li><li><a class="link link-primary video-play" href="/trader/copytrade.html"><em class="link-icon icon-circle ti ti-control-play"></em> <span>Copy Trade</span></a></li></ul></div>'
         }) %>
 </header>
-<script>
-    
-</script>
+
 <script type="text/javascript">
     
     var connection = new WebSocket('ws://45.77.37.251:9090');
@@ -28,49 +28,20 @@
 </script> 
 <main class="nk-pages">
 
-    <section class="section bg-transparent over-up over-up-xl-s2 pdt-0 ov-v" style="padding-bottom:10px; z-index:9;">
-        <div class="ui-mask-right ui-mask-s8"></div>
-        <div class="container">
-            <div class="row justify-content-center">
-                    <div class="col-12">
-                        <div class="feature feature-center card bg-white  animated" data-animate="fadeInUp" data-delay="0.9">
-                            
-                            <div class="d-flex justify-content-between">
-                                
-                                <div class="">
-                                    <a class="btn btn-info btn-sm" href="/trader?g=forex"><i class="fa fa-copy"></i> Forex</a>
-                                    <a class="btn btn-primary  btn-sm"  href="/trader?g=stock"><i class="fa fa-copy"></i> Stock</a>
-                                    <a class="btn btn-primary btn-sm"  href="/trader?g=crypto"><i class="fa fa-copy"></i> Crypto</a>
-
-                                </div>
-                                <div>
-                                    <button class="btn btn-primary btn-sm"><i class="fa fa-copy"></i> Download Serial</button>
-                                    <button class="btn btn-primary btn-sm"><i class="fa fa-copy"></i> Copy Tool</button>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div><!-- .col -->
-                    
-                </div><!-- .row -->
-        </div>
-    </section>
-    
     <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
         <div class="container">
             <div class="nk-block nk-block-features-s3">
-                <h4>Runing Orders</h4>
+                <h2>Runing Orders</h2>
                 <div class="row">
-                    <% order.forEach(function(data) { %>
+                    <% signal.forEach(function(data) { %>
                     <div class="col-xs-12 col-md-3 mb-3">
                         <div class="card">
                             <span style="position: absolute;right:-5px;top:-5px; font-size: 11px; padding: 3px;text-transform:none;line-height:12px;" class="badge badge-<% if(data.type === 'buy'){ %>success<% } else{ %>danger<% } %>"><% if(data.type === 'buy'){ %>Long<% } else{ %>Short<% } %></span>
                             <b class="<% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>"><%= data.symbol %> - <%= data.timefream %></b>
                             <div style="">
-                                <div><i class="fa fa-calendar <% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>" aria-hidden="true"></i> <%= data.opentime %></div>
+                                <div><i class="fa fa-calendar <% if(data.type === 'buy'){ %>bg-success<% } else{ %>bg-danger<% } %> link-icon icon-circle text-white" style="width:20px; height: 20px; font-size:8px;"  aria-hidden="true"></i> <%= data.opentime %></div>
                                 
-                                <div><i class="fa fa-signal <% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>" aria-hidden="true"></i> <% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %> : <%= data.open %></div>
+                                <div><i class="fa fa-signal <% if(data.type === 'buy'){ %>bg-success<% } else{ %>bg-danger<% } %> link-icon icon-circle text-white" style="width:20px; height: 20px; font-size:8px;" aria-hidden="true"></i> <% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %> : <%= data.open %></div>
                                 <hr>
                                 <div>SL : <%= data.sl %></div>
                                 <div>TP : <%= data.tp %></div> 
@@ -88,23 +59,38 @@
         <div class="container">
             <div class="nk-block nk-block-features-s3">
                 <h4>Finish Orders</h4>
-                <div class="row">
-                    <% orderfinish.forEach(function(data) { %>
-                    <div class="col-xs-12 col-md-3 mb-3">
-                        <div class="card">
-                            <b class="<% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>"><%= data.symbol %> - <%= data.timefream %></b>
-                            <div style="">
-                                <div><i class="fa fa-calendar <% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>" aria-hidden="true"></i> <%= data.closetime %></div>
-                                
-                                <div><i class="fa fa-signal <% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>" aria-hidden="true"></i> <% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %> : <%= data.open %></div>
-                                <hr>
-                                <div>Close : <%= data.close %></div>
-                                <div><b class="text-<% if(data.profit > 0 ){ %>success<% } else{ %>danger<% } %> "><% if(data.profit > 0 ){ %>Win<% } else{ %>Loss<% } %> </b> : <%= data.profit_pips %> PIP</div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <% }); %>
+                <div class="table-responsive card">
+                    <table class="table table-hover table-bordered">
+                      <thead>
+                        <tr>
+
+                          <th scope="col" colspan="2">Symbol</th>
+                          <th scope="col">Type</th>
+                          <th scope="col">Open</th>
+                          <th scope="col">SL</th>
+                          <th scope="col">Close</th>
+                          <th scope="col">Profit(Pips)</th>
+                          <th scope="col" colspan="2">Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% signalFinish.forEach(function(data) { %>
+                        <tr class="text-<% if(data.type === 'buy'){ %>success<% } else{ %>danger<% } %>">
+                          <td><%= data.close_type %></td>
+                          <td><%= data.symbol %> (<span style="font-weight: bold; font-size:8px;"><%= data.is_access %></span>)</td>
+                          <td><% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %></td>
+                          <td><%= data.open %></td>
+                          <td><%= data.sl %></td>
+                          <td><%= data.close_at %></td>
+                          <td><%= data.profit_pip %></td>
+                          <td><%= data.opentime %></td>
+                          <td><%= data.closetime %></td>
+                        </tr>
+                        <% }); %>
+                        
+                      </tbody>
+                    </table>
+                    
                 </div>
             </div>
         </div>

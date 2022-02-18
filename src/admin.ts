@@ -18,7 +18,7 @@ import axios, {AxiosResponse} from 'axios';
 //const repSock = new zmq.Reply()
 
 const ServiceMT4 = "127.0.0.1";
-const ServiceAPI = "http://127.0.0.1:3000/api";
+const ServiceAPI = "http://127.0.0.1:8083";
 
 const app: Application = express();
 
@@ -48,35 +48,37 @@ app.get("/", (req: Request, res: Response) => {
 	res.render("index",{page : jsonfile.main})
 });
 app.get("/trader/signals.html", async (req: Request, res: Response) => {
-	let order =  await getRunOrders(100);
-	res.render("trader/signals",{page : jsonfile.main, order : order});
+	let signal: AxiosResponse = await axios.get(`${ServiceAPI}/trader/signal?l=100`);
+	res.render("trader/signals",{page : jsonfile.main, order : signal.data});
 });
 
 app.get("/trader/create.html", async (req: Request, res: Response) => {
-	let symbol =  await getAllSymbol();
-	res.render("trader/create",{page : jsonfile.main, symbol : symbol});
+	let symbol: AxiosResponse = await axios.get(`${ServiceAPI}/trader/symbol`);
+	res.render("trader/create",{page : jsonfile.main, symbol : symbol.data});
 });
 
 app.post("/trader/create.html", async (req: Request, res: Response) => {
-	axios.post(ServiceAPI + '/tradingview', {
-    type: req.body.type,
-    symbol: req.body.symbol,
-    tf : 'H1',
-    open : req.body.open,
-    sl : req.body.sl,
-    tp : req.body.tp,
-    chart : req.body.chart
-  })
-  
-  .catch(function (error) {
-    console.log(error);
-  });
+	let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/tradingview`,req.body);
+	
 	res.redirect('/trader/signals.html');
 });
 
 app.get("/trader/delete-(:id).html", async (req: Request, res: Response) => {
 	let data = req.params.id;
-	await deleteOrders({id:data});
+	let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/delete`,{id : data});
+	res.redirect('/trader/signals.html');
+});
+
+app.get("/trader/finish-(:id)-(:target).html", async (req: Request, res: Response) => {
+	let data = req.params.id;
+	let target = req.params.target;
+	let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/finish`,{id : data, target:target});
+	res.redirect('/trader/signals.html');
+});
+app.get("/trader/alert-(:id)-(:target).html", async (req: Request, res: Response) => {
+	let data = req.params.id;
+	let target = req.params.target;
+	let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/alert`,{id : data, target:target});
 	res.redirect('/trader/signals.html');
 });
 

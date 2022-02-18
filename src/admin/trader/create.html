@@ -6,12 +6,10 @@
 </h4>
 
  
-<div class="row">
-  <div class="col-sm-7">
-
+    <div class="card">
       <div class="form-group row">
         
-        <div class="col-sm-6">
+        <div class="col-sm-3">
           <label for="staticEmail" class="col-form-label">Type</label>
           <select class="form-control" name="type" required>
             <option value="">-----</option>
@@ -20,14 +18,26 @@
           </select>
         </div>
 
+        <div class="col-sm-3">
+          <label for="staticEmail" class="col-form-label">Time Fream</label>
+          <select class="form-control" name="tf" required>
+            <option value="">-----</option>
+            <option value="M5">M5</option>
+            <option value="M15" selected>M15</option>
+            <option value="H1">H1</option>
+            <option value="H4">H4</option>
+            <option value="D1">D1</option>
+          </select>
+        </div>
+
         <div class="col-sm-6">
           <label for="staticEmail" class="col-form-label">Symbol</label>
          
           
-          <select class="form-control" required name="symbol">
+          <select class="form-control" required name="symbol" id="symbol">
             <option value="">-----</option>
             <% symbol.forEach(function(data) { %>
-            <option value="<%= data.symbol%>"><%= data.symbol%></option>
+            <option value="<%= data.symbol%>" dig="<%= data.dig%>"><%= data.symbol%></option>
             <% }); %>
           </select>
         </div>
@@ -37,47 +47,135 @@
 
 
       <div class="form-group">
-        <label for="exampleInputPassword1">Chart</label>
+        <label >Chart</label>
         <input type="text" name="chart" class="form-control">
       </div>
 
-      <div class="form-group">
-        <label for="exampleInputPassword1">Open</label>
-        <input type="text" class="form-control" name="open" required>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label >Open</label>
+            <input type="text" class="form-control" name="open" required>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label >Open 2</label>
+            <input type="text" class="form-control" name="open2">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label >Open 3</label>
+            <input type="text" class="form-control" name="open3">
+          </div>
+        </div>
       </div>
 
-
       <div class="form-group">
-        <label for="exampleInputPassword1">Stoploss</label>
+        <label >Stoploss</label>
         <input type="text" class="form-control" name="sl" required>
       </div>
 
-
-      <div class="form-group">
-        <label for="exampleInputPassword1">Takeprofit</label>
-        <input type="text" class="form-control" name="tp" required>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label >TP 1</label>
+            <input type="text" class="form-control" name="tp" required>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label >TP 2</label>
+            <input type="text" class="form-control" name="tp2">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label >Tp 3</label>
+            <input type="text" class="form-control" name="tp3">
+          </div>
+        </div>
       </div>
+      
 
 
 
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Public Order</button>
+    </div>
   </div>
-  <div class="col-sm-5">
-      <b>Extract Contents</b>
-      <textarea class="form-control" id="extractSignalTxt" style="height:300px;"></textarea>
-      <button type="button" id="extractSignal" class="btn btn-sm btn-info">Extract</button>
-  </div>
-</div>
+  
+
 </form>
+
 <script type="text/javascript">
-  $("#extractSignal").on("click", function(){
-      var code = $("#extractSignalTxt").val();
-      const myArray = code.split("\n");
-      const first = myArray[0].split(" ");
-      var symbol = first[0];
-      var open = first[2];
-      const tp = myArray[1].split(" ")[1];
-      $("input[name=open]").val(open);
-      $("input[name=tp]").val(tp);
+  const makeOrder = () =>{
+      var open = parseFloat($("input[name=open]").val());
+      var sl = parseFloat($("input[name=sl]").val());
+      var type = $("select[name=type]").val();
+      var dig = $('#symbol option:selected').attr('dig');
+      var zone = parseFloat(Math.abs(open - sl));
+      var tp1 = 0;
+      var tp2 = 0;
+      var tp3 = 0;
+      var open2 = 0;
+      var open3 = 0;
+
+      if(type == "buy" && sl < open){
+        tp1 = open + zone * 1.68;
+        tp2 = open + zone * 2.68;
+        tp3 = open + zone * 3.68;
+        open2 = open - zone * 0.5;
+        open3 = open - zone * 0.75;
+      }
+
+      if(type == "sell" && sl > open){
+        tp1 = open - zone * 1.68;
+        tp2 = open - zone * 2.68;
+        tp3 = open - zone * 3.68;
+        open2 = open + zone * 0.5;
+        open3 = open + zone * 0.75;
+      }
+      tp1 = tp1.toFixed(dig);
+      tp2 = tp2.toFixed(dig);
+      tp3 = tp3.toFixed(dig);
+      open2 = open2.toFixed(dig);
+      open3 = open3.toFixed(dig);
+      $("input[name=tp]").val(tp1);
+      $("input[name=tp2]").val(tp2);
+      $("input[name=tp3]").val(tp3);
+      $("input[name=open2]").val(open2);
+      $("input[name=open3]").val(open3);
+  }
+  $("input[name=sl]").on("keyup", function(){
+      makeOrder();
+  });
+
+  $("select[name=type]").on("change", function(){
+      makeOrder();
+  });
+
+  $("input[name=open]").on("keyup", function(){
+      makeOrder();
+  });
+  $("form").on("submit", function(){
+      var open = parseFloat($("input[name=open]").val());
+      var sl = parseFloat($("input[name=sl]").val());
+      var type = $("select[name=type]").val();
+      if(type == "buy"){
+          if(sl < open){
+            return true;
+          }
+      }else if(type == "sell"){
+          if(sl > open){
+            return true;
+          }
+
+      }else{
+        return false;
+      }
+       return false;
   });
 </script>
