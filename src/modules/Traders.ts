@@ -58,7 +58,7 @@ const createOrders = async function(obj = {symbol : "", type : "", open : 0, ope
     return true;
 }
 
-const deleteOrders = async function(obj = {id : ""}) {
+const deleteOrders = async function(obj = {id : 0}) {
     try {
     const conn = await connect();
     await conn.query('DELETE FROM trader_signals WHERE id="'+obj.id+'"');
