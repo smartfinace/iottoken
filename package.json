@@ -16,7 +16,8 @@
     "api": "node ./dist/api.js",
     "dev": "nodemon --watch src -e ts,ejs,html --exec npm run start:gulp",
     "dev:admin": "nodemon --watch src -e ts,ejs,html --exec npm run start:admin",
-    "dev:api": "nodemon --watch src -e ts,ejs,html --exec npm run start:api"
+    "dev:api": "nodemon --watch src -e ts,ejs,html --exec npm run start:api",
+    "autogen" : "node ./autogen.js"
   },
   "keywords": [],
   "author": "",
