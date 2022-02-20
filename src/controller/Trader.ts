@@ -77,7 +77,7 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 	}else if(symbol.dig == 2){
 		pipsfactor=100;
 		point = 0.1;
-		if(symbol.symbol == "BTCUSD" || symbol.symbol == "ETHUSD" ||){
+		if(symbol.symbol == "BTCUSD" || symbol.symbol == "ETHUSD"){
 			pipsfactor=10000;
 		}
 	}
