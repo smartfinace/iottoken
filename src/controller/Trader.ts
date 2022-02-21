@@ -82,7 +82,7 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 		}
 		if(symbol.symbol == "XAUUSD"){
 			pipsfactor=10;
-			point = 0.1;
+			point = 0.001;
 		}
 	}
 
