@@ -32,7 +32,7 @@
         <div class="container">
             <div class="nk-block nk-block-features-s3">
                
-                <h4 class="d-flex justify-content-between">Runing Orders <a class="btn btn-primary" href="#">Join VIP</a></h4>
+                <h4 class="d-flex justify-content-between">Runing Orders <a class="btn btn-md btn-round btn-outline btn-auto btn-primary btn-with-icon" href="#">Join VIP</a></h4>
                 <div class="row">
                     <% signal.forEach(function(data) { %>
                     <div class="col-xs-12 col-md-3 mb-3">
@@ -59,7 +59,7 @@
     <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
         <div class="container">
             <div class="nk-block nk-block-features-s3">
-                <h4 class="d-flex justify-content-between">Finish Orders <a class="btn btn-primary" href="#">Join VIP</a></h4>
+                <h4 class="d-flex justify-content-between">Finish Orders <a class="btn btn-md btn-round btn-outline btn-auto btn-primary btn-with-icon" href="#">Join VIP</a></h4>
                 <div class="table-responsive card" style="padding:3px;">
                     <table class="table table-hover table-bordered">
                       <thead>
@@ -76,7 +76,7 @@
                       </thead>
                       <tbody>
                         <% signalFinish.forEach(function(data) { %>
-                        <tr>
+                        <tr class="<% if(data.close_type === 'SL'){ %>text-danger<% } else{ %>text-success<% } %>">
                           <td><%= data.close_type %></td>
                           <td><b><%= data.symbol %></b> (<span style="font-weight: bold; font-size:8px;color:red;"><%= data.is_access %></span>)</td>
                           
