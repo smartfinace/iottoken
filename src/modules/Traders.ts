@@ -70,14 +70,14 @@ const deleteOrders = async function(obj = {id : 0}) {
     return true;
 }
 
-const closeOrders = async function(obj = {signals_id: 0, symbol : "", open : 0, opentime : "", sl : 0, message_id : 0, close : "", pip : "", close_type : "Close", is_access : "", action : "", method_hit : 0}) {
+const closeOrders = async function(obj = {signals_id: 0, symbol : "", open : 0, opentime : "", sl : 0, message_id : 0, close : "", pip : 0, close_type : "Close", is_access : "", action : "", method_hit : 0}) {
     try {
         
         const conn = await connect();
         let mysqlDate = new Date().toISOString().slice(0, 19).replace('T', ' '); 
         await conn.query("INSERT INTO trader_signals_finish SET signals_id='"+obj.signals_id+"', symbol ='"+obj.symbol+"', open ='"+obj.open+"', opentime ='"+obj.opentime+"', sl='"+obj.sl+"', close_at='"+obj.close+"', close_time='"+mysqlDate+"', close_type='"+obj.close_type+"', profit_pip='"+obj.pip+"', telegram_id='"+obj.message_id+"', is_access='"+obj.is_access+"'");
         
-        if(obj.close_type == "TP" || (obj.close_type == "Close" && parseFloat(obj.pip) > 0)){
+        if(obj.close_type == "TP" || (obj.close_type == "Close" && obj.pip > 0)){
             await conn.query("UPDATE trader_signals SET tp_hit='"+obj.method_hit+"' WHERE id='"+obj.signals_id+"'");
 
             const [rows, fields] = await conn.query("SELECT * FROM trader_report WHERE id='1'")  as any;
@@ -92,7 +92,7 @@ const closeOrders = async function(obj = {signals_id: 0, symbol : "", open : 0, 
 
         }
 
-        if(obj.close_type == "SL" || (obj.close_type == "Close" && parseFloat(obj.pip) < 0)){
+        if(obj.close_type == "SL" || (obj.close_type == "Close" && obj.pip < 0)){
             const [rows, fields] = await conn.query("SELECT * FROM trader_report WHERE id='1'")  as any;
             const reportData = rows[0];
             var sl_total = reportData.sl_total + 1;
