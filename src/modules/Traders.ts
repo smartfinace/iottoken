@@ -82,11 +82,11 @@ const closeOrders = async function(obj = {signals_id: 0, symbol : "", open : 0, 
 
             const [rows, fields] = await conn.query("SELECT * FROM trader_report WHERE id='1'")  as any;
             const reportData = rows[0];
-            var tp_total_pips = parseFloat(reportData.tp_total_pips) + parseFloat(obj.pip);
+            var tp_total_pips = parseFloat(parseFloat(reportData.tp_total_pips) + parseFloat(obj.pip)).toFixed(2);
             var tp_total_vip_pips = reportData.tp_total_vip_pips;
             var tp_total = reportData.tp_total + 1;
             if(obj.method_hit > 1){
-                tp_total_vip_pips = tp_total_vip_pips + obj.pip;
+                tp_total_vip_pips = parseFloat(parseFloat(tp_total_vip_pips) + parseFloat(obj.pip)).toFixed(2);
             }
             await conn.query("UPDATE trader_report SET tp_total_pips='"+tp_total_pips+"', tp_total_vip_pips='"+tp_total_vip_pips+"', tp_total='"+tp_total+"' WHERE id='1'");
 
@@ -96,7 +96,7 @@ const closeOrders = async function(obj = {signals_id: 0, symbol : "", open : 0, 
             const [rows, fields] = await conn.query("SELECT * FROM trader_report WHERE id='1'")  as any;
             const reportData = rows[0];
             var sl_total = reportData.sl_total + 1;
-            var sl_total_pips = parseFloat(reportData.sl_total_pips) + parseFloat(obj.pip);
+            var sl_total_pips = parseFloat(parseFloat(reportData.sl_total_pips) + parseFloat(obj.pip)).toFixed(2);
             await conn.query("UPDATE trader_report SET sl_total='"+sl_total+"', sl_total_pips='"+sl_total_pips+"' WHERE id='1'");
 
 
