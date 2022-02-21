@@ -220,6 +220,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
+		await updateGroup(obj.message_id);
 		sendSocketData(obj);
 
 	}
