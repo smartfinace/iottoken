@@ -8,6 +8,10 @@ const token = jsonfile.telegram.token;
 const channel = jsonfile.telegram.channel;
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: false});
+import axios, {AxiosResponse} from 'axios';
+
+
+var commentGroups = "@smartiqx"
 
 
 router.get('/signal', async (req: Request, res: Response, next: NextFunction) => {
@@ -250,11 +254,26 @@ const sendTelegram = async (obj:any={}) => {
 			
 		});
 		//console.log(msgTelegram);
-		return msgTelegram.message_id;
+		const data = await bot.getChat(commentGroups);
+		let dataJosn = JSON.parse(JSON.stringify(data.pinned_message));
+		if(dataJosn.forward_from_message_id == msgTelegram.message_id){
+				return dataJosn.message_id;
+		}else{
+				return msgTelegram.message_id;
+		}
 	}else{
 		let msgTelegram = await bot.sendMessage(channel, msg);
 		//console.log(msgTelegram);
-		return msgTelegram.message_id;
+		
+		const data = await bot.getChat(commentGroups);
+		let dataJosn = JSON.parse(JSON.stringify(data.pinned_message));
+		if(dataJosn.forward_from_message_id == msgTelegram.message_id){
+				return dataJosn.message_id;
+		}else{
+				return msgTelegram.message_id;
+		}
+		
+
 	}
 	return 0;
 }
@@ -276,7 +295,8 @@ const sendTelegramReport = async (obj:any={}, objCustoms:any={}) => {
 		msg = "👥"+obj.type.toUpperCase()+" "+obj.symbol+"\n🐹Close\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
 	}
 
-	let msgTelegram = await bot.sendMessage(channel, msg,{reply_to_message_id : objCustoms.reply_id});
+	let msgTelegram = await bot.sendMessage(commentGroups, msg,{reply_to_message_id : objCustoms.reply_id});
+
 	//console.log(msgTelegram);
 	return true;
 }
