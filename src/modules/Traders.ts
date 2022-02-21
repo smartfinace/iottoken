@@ -1,5 +1,5 @@
 import { connect } from '../database'
-
+import axios, {AxiosResponse} from 'axios';
 const getOrders = async function(limit:number=8,page:number=1, search:any=""){
     var sql = "";
     try {
@@ -156,5 +156,17 @@ const getReport = async () =>{
     
 }
 
-export default {getOrders, getOrdersInfo, getOrdersFinish,createOrders,deleteOrders,closeOrders,getSymbols, getSymbolsInfo, getReport};
+const updateGroups = async (channel_id:number=0, group_id:number=0) => {
+    try {
+        const conn = await connect();
+        
+        await conn.query("UPDATE trader_signals SET telegram_group_id='"+group_id+"' WHERE telegram_id='"+channel_id+"'");
+        return true;
+    }
+    catch (e) {
+        console.log(e)
+    }
+    return true;
+}
+export default {getOrders, getOrdersInfo, getOrdersFinish,createOrders,deleteOrders,closeOrders,getSymbols, getSymbolsInfo, getReport, updateGroups};
 

@@ -13,6 +13,26 @@ import axios, {AxiosResponse} from 'axios';
 
 var commentGroups = "@smartiqx"
 
+function hasOwnProperty<T, K extends PropertyKey>(
+    obj: T,
+    prop: K
+): obj is T & Record<K, unknown> {
+    return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+const updateGroup = async (findSignal:number) => {
+	let msgtelegram:AxiosResponse = await axios.get(`https://api.telegram.org/bot${token}/getUpdates`);
+	let getInfo = msgtelegram.data.result; 
+	getInfo.forEach(async (item:any) => {
+			if(typeof item.message === "object" && hasOwnProperty(item.message,"message_id") && hasOwnProperty(item.message,"forward_from_message_id")){
+				 if(findSignal === item.message.forward_from_message_id){
+				 		await modules.updateGroups(findSignal, item.message.message_id);
+				 }
+			}
+	});
+	return true;
+	
+};
 
 router.get('/signal', async (req: Request, res: Response, next: NextFunction) => {
 
@@ -130,7 +150,7 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 		action : close_type == "SL" || target == 3 ? "remove" : "hold",
 		method_hit : target
 	});
-	await sendTelegramReport(getOrderInfo, {reply_id : getOrderInfo.telegram_id, target : target, pip : pip});
+	await sendTelegramReport(getOrderInfo, {reply_id : getOrderInfo.telegram_group_id, target : target, pip : pip});
 	res.send({status : "ok"});
 });
 
@@ -140,10 +160,10 @@ router.post("/alert",async (req: Request, res: Response, next: NextFunction) => 
 	let getOrderInfo = await modules.getOrdersInfo(id);
 	if(target == "channel"){
 		var msg = "Smart AI Signals, Forex, Crypto, Stock.Auto Copy all exchange 0%. Share and Follow Channel https://t.me/vsmartfx, Website : https://expressiq.co";
-		await bot.sendMessage(channel, msg);
+		await bot.sendMessage(commentGroups, msg);
 	}else{
 		var msg = "🌹Running in profit, Wait TP, or move sl entry or close 1/2";
-		await bot.sendMessage(channel, msg,{reply_to_message_id : getOrderInfo.telegram_id});
+		await bot.sendMessage(commentGroups, msg,{reply_to_message_id : getOrderInfo.telegram_group_id});
 	}
 	res.send({status : "ok"});
 });
@@ -214,6 +234,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
+		await updateGroup(obj.message_id);
 		sendSocketData(obj);
 	}
 	res.send({status : "ok"});
@@ -253,25 +274,10 @@ const sendTelegram = async (obj:any={}) => {
 			caption : msg,
 			
 		});
-		//console.log(msgTelegram);
-		const data = await bot.getChat(commentGroups);
-		let dataJosn = JSON.parse(JSON.stringify(data.pinned_message));
-		if(dataJosn.forward_from_message_id == msgTelegram.message_id){
-				return dataJosn.message_id;
-		}else{
-				return msgTelegram.message_id;
-		}
+		return msgTelegram.message_id;
 	}else{
 		let msgTelegram = await bot.sendMessage(channel, msg);
-		//console.log(msgTelegram);
-		
-		const data = await bot.getChat(commentGroups);
-		let dataJosn = JSON.parse(JSON.stringify(data.pinned_message));
-		if(dataJosn.forward_from_message_id == msgTelegram.message_id){
-				return dataJosn.message_id;
-		}else{
-				return msgTelegram.message_id;
-		}
+		return msgTelegram.message_id;
 		
 
 	}
