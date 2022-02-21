@@ -31,7 +31,8 @@
     <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
         <div class="container">
             <div class="nk-block nk-block-features-s3">
-                <h2>Runing Orders</h2>
+               
+                <h4 class="d-flex justify-content-between">Runing Orders <a class="btn btn-primary" href="#">Join VIP</a></h4>
                 <div class="row">
                     <% signal.forEach(function(data) { %>
                     <div class="col-xs-12 col-md-3 mb-3">
@@ -58,8 +59,8 @@
     <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
         <div class="container">
             <div class="nk-block nk-block-features-s3">
-                <h4>Finish Orders</h4>
-                <div class="table-responsive card">
+                <h4 class="d-flex justify-content-between">Finish Orders <a class="btn btn-primary">Join VIP</a></h4>
+                <div class="table-responsive card" style="padding:3px;">
                     <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
@@ -75,9 +76,9 @@
                       </thead>
                       <tbody>
                         <% signalFinish.forEach(function(data) { %>
-                        <tr class="text-<% if(data.type === 'buy'){ %>success<% } else{ %>danger<% } %>">
+                        <tr>
                           <td><%= data.close_type %></td>
-                          <td><%= data.symbol %> (<span style="font-weight: bold; font-size:8px;"><%= data.is_access %></span>)</td>
+                          <td><b class="text-<% if(data.type === 'buy'){ %>success<% } else{ %>danger<% } %>"><%= data.symbol %></b> (<span style="font-weight: bold; font-size:8px;color:red;"><%= data.is_access %></span>)</td>
                           <td><% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %></td>
                           <td><%= data.open %></td>
                           <td><%= data.sl %></td>
@@ -96,14 +97,14 @@
         </div>
     </section>
 
-    <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
+    <section class="section pdt-0 ov-v" style="padding-bottom:10px;margin-top: 15px;">
         <div class="container">
             <div class="nk-block nk-block-features-s3">
                 
                 <div>
-                    <a class="badge badge-primary" href="/trader/signals.html">All</a>
+                    <a class="badge badge-primary badge-sm" href="/trader/signals.html">All</a>
                     <% symbol.forEach(function(data) { %>
-                    <a class="badge badge-secondary" href="/trader/signals.html?s=<%= data.symbol%>"><%= data.symbol%></a>
+                    <a class="badge badge-secondary badge-sm" href="/trader/signals.html?s=<%= data.symbol%>"><%= data.symbol%></a>
                     <% }); %>
                 </div>
             </div>

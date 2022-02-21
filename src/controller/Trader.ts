@@ -62,7 +62,7 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 
 	
 
-    var point = 0.0001;
+  var point = 0.0001;
 	var pipsfactor = 10;
 	
 	if(symbol.dig  == 3) {
