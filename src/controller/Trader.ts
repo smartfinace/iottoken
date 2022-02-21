@@ -80,6 +80,9 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 		if(symbol.symbol == "BTCUSD" || symbol.symbol == "ETHUSD"){
 			pipsfactor=100;
 		}
+		if(symbol.symbol == "XAUUSD"){
+			point = 0.1;
+		}
 	}
 
 	
@@ -253,7 +256,11 @@ const sendTelegramReport = async (obj:any={}, objCustoms:any={}) => {
 	var tp = obj.tp;
 	if(objCustoms.target == 2) tp = obj.tp_2;
 	if(objCustoms.target == 3) tp = obj.tp_3;
-	var msg = "✅"+obj.type.toUpperCase()+" "+obj.symbol+"\n💥Hit TP "+objCustoms.target+" : "+tp+"\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
+	var targetType = "";
+	if(objCustoms.target == 2 || objCustoms.target == 3){
+		targetType = "[VIP]";
+	}
+	var msg = "✅"+obj.type.toUpperCase()+" "+obj.symbol+" "+targetType+"\n💥Hit TP "+objCustoms.target+" : "+tp+"\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
 	if(objCustoms.target == 0){
 		msg = "❌"+obj.type.toUpperCase()+" "+obj.symbol+"\n🐥Hit SL : "+obj.sl+"\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
 	}
