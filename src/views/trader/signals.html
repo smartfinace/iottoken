@@ -59,14 +59,14 @@
     <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
         <div class="container">
             <div class="nk-block nk-block-features-s3">
-                <h4 class="d-flex justify-content-between">Finish Orders <a class="btn btn-primary">Join VIP</a></h4>
+                <h4 class="d-flex justify-content-between">Finish Orders <a class="btn btn-primary" href="#">Join VIP</a></h4>
                 <div class="table-responsive card" style="padding:3px;">
                     <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
 
                           <th scope="col" colspan="2">Symbol</th>
-                          <th scope="col">Type</th>
+                          
                           <th scope="col">Open</th>
                           <th scope="col">SL</th>
                           <th scope="col">Close</th>
@@ -78,8 +78,8 @@
                         <% signalFinish.forEach(function(data) { %>
                         <tr>
                           <td><%= data.close_type %></td>
-                          <td><b class="text-<% if(data.type === 'buy'){ %>success<% } else{ %>danger<% } %>"><%= data.symbol %></b> (<span style="font-weight: bold; font-size:8px;color:red;"><%= data.is_access %></span>)</td>
-                          <td><% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %></td>
+                          <td><b><%= data.symbol %></b> (<span style="font-weight: bold; font-size:8px;color:red;"><%= data.is_access %></span>)</td>
+                          
                           <td><%= data.open %></td>
                           <td><%= data.sl %></td>
                           <td><%= data.close_at %></td>
