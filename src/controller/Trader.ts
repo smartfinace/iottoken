@@ -69,7 +69,7 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 		pipsfactor=10;
 		point = 0.001;
 		if(symbol.symbol == "XAUUSD"){
-			point = 0.1;
+			point = 0.001;
 		}
 	}else if(symbol.dig  == 5) {
 		pipsfactor=10;
