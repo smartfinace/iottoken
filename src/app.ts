@@ -60,8 +60,8 @@ app.get("/trader/signals.html", async (req: Request, res: Response) => {
 	let signal: AxiosResponse = await axios.get(`${ServiceAPI}/trader/signal?l=8`);
 	let signalFinish: AxiosResponse = await axios.get(`${ServiceAPI}/trader/complete`);
 	let symbol: AxiosResponse = await axios.get(`${ServiceAPI}/trader/symbol`);
-	
-	res.render("trader/signals",{page : jsonfile.trader, signal : signal.data, signalFinish:signalFinish.data, symbol : symbol.data});
+	let report: AxiosResponse = await axios.get(`${ServiceAPI}/trader/report`);
+	res.render("trader/signals",{page : jsonfile.trader, signal : signal.data, signalFinish:signalFinish.data, symbol : symbol.data, report : report.data});
 });
 
 app.get("/trader/copytrade.html", async (req: Request, res: Response) => {

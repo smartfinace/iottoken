@@ -41,26 +41,26 @@
                 <div class="row gutter-vr-30px text-center">
                     <div class="col-md col-4">
                         <div class="rating animated" data-animate="fadeInUp" data-delay=".2">
-                            <div class="rating-info">4.7<span>5</span></div>
+                            <div class="rating-info"><%=report.symbol_total%></div>
                             <div class="rating-title">Symbol</div>
                         </div>
                     </div>
                     <div class="col-md col-4">
                         <div class="rating animated" data-animate="fadeInUp" data-delay=".3">
-                            <div class="rating-info">A</div>
+                            <div class="rating-info"><%=report.finish_total%></div>
                             <div class="rating-title">Finish</div>
                         </div>
                     </div>
                     <div class="col-md col-4">
                         <div class="rating animated" data-animate="fadeInUp" data-delay=".4">
-                            <div class="rating-info">9.4<span>10</span></div>
+                            <div class="rating-info"><%=report.wait_orders%></div>
                             <div class="rating-title">Wait</div>
                         </div>
                     </div>
                     <div class="col-md col-4">
                         <div class="rating animated" data-animate="fadeInUp" data-delay=".5">
-                            <div class="rating-info">4.9<span>5</span></div>
-                            <div class="rating-title">SL</div>
+                            <div class="rating-info"><%=report.sl_total%></div>
+                            <div class="rating-title">Hit SL</div>
                         </div>
                     </div>
                     
@@ -82,7 +82,9 @@
                                 <div><i class="fa fa-signal <% if(data.type === 'buy'){ %>bg-success<% } else{ %>bg-danger<% } %> link-icon icon-circle text-white" style="width:20px; height: 20px; font-size:8px;" aria-hidden="true"></i> <% if(data.type === 'buy'){ %>BUY<% } else{ %>SELL<% } %> : <%= data.open %></div>
                                 <hr>
                                 <div>SL : <%= data.sl %></div>
-                                <div>TP : <%= data.tp %></div> 
+                                <div>TP : <%= data.tp %></div>
+                                <div>Status : <% if(data.tp_hit > 0){%>TP <%=data.tp_hit%><%}else{%>Wait<%} %></div>
+                                <div>Breakeven : <% if(data.tp_hit > 0){%>Confirm<%}else{%>Wait<%} %></div> 
                             </div>
                         </div>
                     </div>
@@ -105,38 +107,40 @@
                 <div class="row gutter-vr-30px text-center">
                     <div class="col-md col-4">
                         <div class="rating animated" data-animate="fadeInUp" data-delay=".2">
-                            <div class="rating-info">4.7<span>5</span></div>
+                            <div class="rating-info"><%=report.tp_total_vip_pips%><span><%=report.tp_total%></span></div>
                             <div class="rating-title">VIP</div>
                         </div>
                     </div>
                     <div class="col-md col-4">
                         <div class="rating animated" data-animate="fadeInUp" data-delay=".3">
-                            <div class="rating-info">A</div>
+                            <div class="rating-info"><%=report.tp_total_free_pips%><span><%=report.tp_total%></div>
                             <div class="rating-title">Free</div>
                         </div>
                     </div>
                     <div class="col-md col-4">
                         <div class="rating animated" data-animate="fadeInUp" data-delay=".4">
-                            <div class="rating-info">9.4<span>10</span></div>
+                            <div class="rating-info"><%=report.tp_total_pips%><span>pips</span></div>
                             <div class="rating-title">Profit</div>
                         </div>
                     </div>
                     
                     <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".7">
+                            <div class="rating-info"><%=report.sl_total_pips%><span>pips</span></div>
+                            <div class="rating-title">Stoploss</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md col-4">
                         <div class="rating animated" data-animate="fadeInUp" data-delay=".6">
-                            <div class="rating-info">5<span>5</span></div>
+                            <div class="rating-info"><%=report.forex_symbol%></div>
                             <div class="rating-title">Forex</div>
                         </div>
                     </div>
-                    <div class="col-md col-4">
-                        <div class="rating animated" data-animate="fadeInUp" data-delay=".7">
-                            <div class="rating-info">9.1<span>10</span></div>
-                            <div class="rating-title">Stock</div>
-                        </div>
-                    </div>
+                    
                     <div class="col-md col-4">
                         <div class="rating animated" data-animate="fadeInUp" data-delay=".5">
-                            <div class="rating-info">4.9<span>5</span></div>
+                            <div class="rating-info"><%=report.crypto_symbol%></div>
                             <div class="rating-title">Crypto</div>
                         </div>
                     </div>

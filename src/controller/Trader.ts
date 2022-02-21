@@ -26,6 +26,12 @@ router.get('/complete', async (req: Request, res: Response, next: NextFunction) 
     res.send(data);
 });
 
+router.get('/report', async (req: Request, res: Response, next: NextFunction) => {
+	let data = await modules.getReport();
+	//res.setHeader('Content-Type', 'application/json');
+    res.send(data);
+});
+
 router.post("/create",async (req: Request, res: Response, next: NextFunction) => {
 	var obj = {
 		symbol : req.body.symbol, 
@@ -117,7 +123,8 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 		opentime : getOrderInfo.opentime,
 		close_type : close_type,
 		is_access : is_access,
-		action : close_type == "SL" || target == 3 ? "remove" : "hold"
+		action : close_type == "SL" || target == 3 ? "remove" : "hold",
+		method_hit : target
 	});
 	await sendTelegramReport(getOrderInfo, {reply_id : getOrderInfo.telegram_id, target : target, pip : pip});
 	res.send({status : "ok"});
@@ -128,7 +135,7 @@ router.post("/alert",async (req: Request, res: Response, next: NextFunction) => 
 	var target = req.body.target == undefined ? 0 : req.body.target;
 	let getOrderInfo = await modules.getOrdersInfo(id);
 	if(target == "channel"){
-		var msg = "Smart AI Signals, Forex, Crypto, Stock.Auto Copy all exchange 0%. Share and Follow Channel https://t.me/vsmartfx";
+		var msg = "Smart AI Signals, Forex, Crypto, Stock.Auto Copy all exchange 0%. Share and Follow Channel https://t.me/vsmartfx, Website : https://expressiq.co";
 		await bot.sendMessage(channel, msg);
 	}else{
 		var msg = "🌹Running in profit, Wait TP, or move sl entry or close 1/2";
