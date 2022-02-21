@@ -70,7 +70,7 @@ const deleteOrders = async function(obj = {id : 0}) {
     return true;
 }
 
-const closeOrders = async function(obj = {signals_id: 0, symbol : "", open : 0, opentime : "", sl : 0, message_id : 0, close : "", pip : 0, close_type : "Close", is_access : "", action : "", method_hit : 0}) {
+const closeOrders = async function(obj = {signals_id: 0, symbol : "", open : 0, opentime : "", sl : 0, message_id : 0, close : "", pip : "", close_type : "Close", is_access : "", action : "", method_hit : 0}) {
     try {
         
         const conn = await connect();
