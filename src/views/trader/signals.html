@@ -167,9 +167,9 @@
                       </thead>
                       <tbody>
                         <% signalFinish.forEach(function(data) { %>
-                        <tr class="<% if(data.close_type === 'SL'){ %>text-danger<% } else{ %>text-success<% } %>">
+                        <tr>
                           <td><%= data.close_type %></td>
-                          <td><b><%= data.symbol %></b> (<span style="font-weight: bold; font-size:8px;color:red;"><%= data.is_access %></span>)</td>
+                          <td class="<% if(data.close_type === 'SL'){ %>text-danger<% } else{ %>text-success<% } %>"><b><%= data.symbol %></b> (<span style="font-weight: bold; font-size:8px;color:red;"><%= data.is_access %></span>)</td>
                           
                           <td><%= data.open %></td>
                           <td><%= data.sl %></td>
