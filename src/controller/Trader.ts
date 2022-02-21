@@ -73,7 +73,7 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 		}
 	}else if(symbol.dig  == 5) {
 		pipsfactor=10;
-		point = 0.00001;
+		point = 0.001;
 	}else if(symbol.dig == 2){
 		pipsfactor=100;
 		point = 0.1;
