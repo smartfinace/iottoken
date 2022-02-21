@@ -80,7 +80,7 @@ const closeOrders = async function(obj = {signals_id: 0, symbol : "", open : 0, 
         if(obj.close_type == "TP" || (obj.close_type == "Close" && obj.pip > 0)){
             await conn.query("UPDATE trader_signals SET tp_hit='"+obj.method_hit+"' WHERE id='"+obj.signals_id+"'");
 
-            const [rows, fields] = await conn.query("SELECT * trader_report WHERE id=1 LIMIT 1")  as any;
+            const [rows, fields] = await conn.query("SELECT * trader_report WHERE id='1'")  as any;
             const reportData = rows[0];
             var tp_total_pips = reportData.tp_total_pips + obj.pip;
             var tp_total_vip_pips = reportData.tp_total_vip_pips;
@@ -93,7 +93,7 @@ const closeOrders = async function(obj = {signals_id: 0, symbol : "", open : 0, 
         }
 
         if(obj.close_type == "SL" || (obj.close_type == "Close" && obj.pip < 0)){
-            const [rows, fields] = await conn.query("SELECT * trader_report WHERE id=1 LIMIT 1")  as any;
+            const [rows, fields] = await conn.query("SELECT * trader_report WHERE id='1'")  as any;
             const reportData = rows[0];
             var sl_total = reportData.sl_total + 1;
             var sl_total_pips = reportData.sl_total_pips + obj.pip;
