@@ -84,7 +84,7 @@
                                 <div>SL : <%= data.sl %></div>
                                 <div>TP : <%= data.tp %></div>
                                 <div>Status : <% if(data.tp_hit > 0){%>TP <%=data.tp_hit%><%}else{%>Wait<%} %></div>
-                                <div>Breakeven : <% if(data.tp_hit > 0){%>Confirm<%}else{%>Wait<%} %></div> 
+                                <div>Breakeven : <% if(data.tp_hit > 0){%><%=data.open%><%}else{%>Wait<%} %></div> 
                             </div>
                         </div>
                     </div>
