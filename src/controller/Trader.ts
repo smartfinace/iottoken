@@ -34,6 +34,13 @@ const updateGroup = async (findSignal:number) => {
 	
 };
 
+router.get('/updateg', async (req: Request, res: Response, next: NextFunction) => {
+		var id = Number(req.body.id);
+	  await updateGroup(id);
+
+    res.send({status : "ok"});
+});
+
 router.get('/signal', async (req: Request, res: Response, next: NextFunction) => {
 
 	var l = Number(req.query.l);

@@ -94,6 +94,15 @@ app.get("/trader/finish-(:id)-(:target).html", async (req: Request, res: Respons
 	let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/finish`,{id : data, target:target});
 	res.redirect('/trader/signals.html');
 });
+
+app.get("/trader/telegram-(:id).html", async (req: Request, res: Response) => {
+	let data = req.params.id;
+	
+	let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/updateg`,{id : data});
+	res.redirect('/trader/signals.html');
+});
+
+
 app.get("/trader/alert-(:id)-(:target).html", async (req: Request, res: Response) => {
 	let data = req.params.id;
 	let target = req.params.target;

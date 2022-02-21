@@ -28,6 +28,8 @@
 		<td><div class="d-flex justify-content-between"><%= data.tp_3 %><a class="btn btn-primary btn-sm" href="/trader/finish-<%= data.id %>-3.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-check"></i></a></div></td>
 		<td><%= data.opentime %></td>
 		<td class="text-right" style="width:1%; white-space: nowrap;">
+			
+			<a class="btn btn-danger btn-sm" href="/trader/telegram-<%= data.telegram_id %>.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-telegram"></i></a>
 			<a class="btn btn-danger btn-sm" href="/trader/alert-<%= data.id %>-1.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-bell"></i></a>
 			<a class="btn btn-danger btn-sm" href="/trader/delete-<%= data.id %>.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-trash"></i></a>
 		</td>
