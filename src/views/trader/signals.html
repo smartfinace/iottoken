@@ -28,15 +28,52 @@
 </script> 
 <main class="nk-pages">
 
-    <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
+    <section class="section  ov-v" style="padding-bottom:10px; padding-top: 30px; background-color: #FFF;">
+        
+
         <div class="container">
+            <div class="section-head section-head-sm wide-auto-sm text-center">
+                <h2 class="title title-lg title-lg-s1 tc-alternet animated" data-animate="fadeInUp" data-delay=".1">Runing Orders</h2>
+                <a href="#">Join VIP</a> get more signals
+            </div>
+            <!-- Block @s -->
+            <div class="nk-block">
+                <div class="row gutter-vr-30px text-center">
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".2">
+                            <div class="rating-info">4.7<span>5</span></div>
+                            <div class="rating-title">Symbol</div>
+                        </div>
+                    </div>
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".3">
+                            <div class="rating-info">A</div>
+                            <div class="rating-title">Finish</div>
+                        </div>
+                    </div>
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".4">
+                            <div class="rating-info">9.4<span>10</span></div>
+                            <div class="rating-title">Wait</div>
+                        </div>
+                    </div>
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".5">
+                            <div class="rating-info">4.9<span>5</span></div>
+                            <div class="rating-title">SL</div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div><!-- Block @e -->
+
+            
             <div class="nk-block nk-block-features-s3">
                
-                <h4 class="d-flex justify-content-between">Runing Orders <a class="btn btn-md btn-round btn-outline btn-auto btn-primary btn-with-icon" href="#">Join VIP</a></h4>
                 <div class="row">
                     <% signal.forEach(function(data) { %>
                     <div class="col-xs-12 col-md-3 mb-3">
-                        <div class="card">
+                        <div class="card border">
                             <span style="position: absolute;right:-5px;top:-5px; font-size: 11px; padding: 3px;text-transform:none;line-height:12px;" class="badge badge-<% if(data.type === 'buy'){ %>success<% } else{ %>danger<% } %>"><% if(data.type === 'buy'){ %>Long<% } else{ %>Short<% } %></span>
                             <b class="<% if(data.type === 'buy'){ %>text-success<% } else{ %>text-danger<% } %>"><%= data.symbol %> - <%= data.timefream %></b>
                             <div style="">
@@ -56,11 +93,61 @@
     </section>
 
 
-    <section class="section pdt-0 ov-v" style="padding-bottom:10px;">
+    <section class="section  ov-v border-top" style="padding-bottom:30px; padding-top: 30px; background-color: #FFF;">
         <div class="container">
+            <div class="section-head section-head-sm wide-auto-sm text-center">
+                <h2 class="title title-md title-md-s1 tc-alternet animated" data-animate="fadeInUp" data-delay=".1">Finish Orders</h2>
+                <a href="#">Join VIP</a> get more signals
+            </div>
+
+            <!-- Block @s -->
+            <div class="nk-block">
+                <div class="row gutter-vr-30px text-center">
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".2">
+                            <div class="rating-info">4.7<span>5</span></div>
+                            <div class="rating-title">VIP</div>
+                        </div>
+                    </div>
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".3">
+                            <div class="rating-info">A</div>
+                            <div class="rating-title">Free</div>
+                        </div>
+                    </div>
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".4">
+                            <div class="rating-info">9.4<span>10</span></div>
+                            <div class="rating-title">Profit</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".6">
+                            <div class="rating-info">5<span>5</span></div>
+                            <div class="rating-title">Forex</div>
+                        </div>
+                    </div>
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".7">
+                            <div class="rating-info">9.1<span>10</span></div>
+                            <div class="rating-title">Stock</div>
+                        </div>
+                    </div>
+                    <div class="col-md col-4">
+                        <div class="rating animated" data-animate="fadeInUp" data-delay=".5">
+                            <div class="rating-info">4.9<span>5</span></div>
+                            <div class="rating-title">Crypto</div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Block @e -->
+
             <div class="nk-block nk-block-features-s3">
-                <h4 class="d-flex justify-content-between">Finish Orders <a class="btn btn-md btn-round btn-outline btn-auto btn-primary btn-with-icon" href="#">Join VIP</a></h4>
-                <div class="table-responsive card" style="padding:3px;">
+                
+                
+
+                <div class="table-responsive">
                     <table class="table table-hover table-bordered">
                       <thead>
                         <tr>
