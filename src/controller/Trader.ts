@@ -181,6 +181,7 @@ router.post("/delete",async (req: Request, res: Response, next: NextFunction) =>
 
 
 router.post("/tradingview",async (req: Request, res: Response, next: NextFunction) => {
+	console.log(req.body);
 	var symbol = req.body.symbol;
 	var msg = "";
 	var type = req.body.type;
