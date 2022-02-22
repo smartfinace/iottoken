@@ -82,6 +82,12 @@ app.post("/trader/create.html", async (req: Request, res: Response) => {
 	res.redirect('/trader/signals.html');
 });
 
+app.post("/trader/tradingview", async (req: Request, res: Response) => {
+	let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/tradingview`,req.body);
+	console.log(req.body);
+	res.send({status : "ok"});
+});
+
 app.get("/trader/delete-(:id).html", async (req: Request, res: Response) => {
 	let data = req.params.id;
 	let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/delete`,{id : data});
