@@ -85,6 +85,7 @@ app.post("/trader/create.html", async (req: Request, res: Response) => {
 app.post("/trader/tradingview", async (req: Request, res: Response) => {
 	var data = {
 		symbol : req.body.symbol,
+		type : req.body.type,
 		open: req.body.open,
 	  sl: req.body.sl,
 	  tf: req.body.tf,
