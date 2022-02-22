@@ -179,6 +179,7 @@ router.post("/delete",async (req: Request, res: Response, next: NextFunction) =>
 	res.send({status : "ok"});
 });
 
+
 router.post("/tradingview",async (req: Request, res: Response, next: NextFunction) => {
 	var symbol = req.body.symbol;
 	var msg = "";
@@ -202,7 +203,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 	
 	tf = (tf == "" || tf == undefined ? "H1" : tf);
 	const symbolInfo = await modules.getSymbolsInfo(symbol);
-	dig = symbolInfo.dig;
+	if(symbolInfo != undefined && typeof symbolInfo == "object") dig = symbolInfo.dig;
 	if(dig == 0 || dig == undefined){
 		res.send({status : "ok"});
 		return true;
