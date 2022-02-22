@@ -201,7 +201,34 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 	var groupSymbol = "";
 	
 	tf = (tf == "" || tf == undefined ? "H1" : tf);
+	const symbolInfo = await modules.getSymbolsInfo(symbol);
+	dig = symbolInfo.dig;
+	if(tp == undefined){
+		zone = Math.abs(sl-open);
+		if(type == "buy"){
+			tp = open + zone * 1.68;
+			tp2 = open + zone * 2.68;
+			tp3 = open + zone * 3.68;
+			open2 = open - zone * 0.5;
+			open3 = open - zone * 0.75;
+		}
+		if(type == "sell"){
+			tp = open - zone * 1.68;
+			tp2 = open - zone * 2.68;
+			tp3 = open - zone * 3.68;
+			open2 = open + zone * 0.5;
+			open3 = open + zone * 0.75;
+		}
+	}
 
+	tp = tp.toFixed(dig);
+	tp2 = tp2.toFixed(dig);
+	tp3 = tp3.toFixed(dig);
+	sl = sl.toFixed(dig);
+	open = open.toFixed(dig);
+	open2 = open2.toFixed(dig);
+	open3 = open3.toFixed(dig);
+	
 	if(type == "buy"){
 
 		var obj = {
