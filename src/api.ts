@@ -101,7 +101,7 @@ async function ServiceCheckSerial() {
 	console.log("Start Service Serial")
   const sock = new zmq.Reply;
 
-  await sock.bind("tcp://0.0.0.0:9001");
+  await sock.bind("tcp://0.0.0.0:9091");
 
   for await (const [msg] of sock) {
   	console.log("Unlock Connect");
@@ -115,7 +115,7 @@ async function ServiceCheckSerial() {
             let endtime = jsonUser.endtime;
             await sock.send(JSON.stringify({"status":(Date.now() < endtime ? "unlock" : "exit"),"meta_id" : meta_id}));
         }catch (e) {
-        		await sock.send("error")
+        	await sock.send("error")
         }
     }else{
     	await sock.send("error")
@@ -128,7 +128,7 @@ async function ServiceReportSignal() {
 	console.log("Start Service Report Order")
   const sock = new zmq.Reply;
 
-  await sock.bind("tcp://0.0.0.0:9002");
+  await sock.bind("tcp://0.0.0.0:9092");
   for await (const [result] of sock) {
 
 	  let data = JSON.parse(result.toString());
