@@ -209,6 +209,10 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		res.send({status : "ok"});
 		return true;
 	}
+	if(chart == undefined || chart == "") chart = "";
+	open = parseFloat(open).toFixed(dig);
+	sl = parseFloat(sl).toFixed(dig);
+	
 	if(tp == undefined || tp == ""){
 		zone = Math.abs(sl-open);
 		if(type == "buy"){
@@ -238,9 +242,11 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		tf = "H4";
 	}
 
+	var hour = [];
 	if(time != undefined){
-		 time = time.slice(0, 19).replace('T', ' '); 
-		 console.log(time);
+		 time = time.slice(0, 19).replace('T', ' ');
+		 hour = time.split(' ');
+		 console.log(hour[1]);
 	}
 
 	tp = parseFloat(tp).toFixed(dig);
