@@ -203,6 +203,10 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 	tf = (tf == "" || tf == undefined ? "H1" : tf);
 	const symbolInfo = await modules.getSymbolsInfo(symbol);
 	dig = symbolInfo.dig;
+	if(dig == 0 || dig == undefined){
+		res.send({status : "ok"});
+		return true;
+	}
 	if(tp == undefined || tp == ""){
 		zone = Math.abs(sl-open);
 		if(type == "buy"){
@@ -226,13 +230,13 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		 console.log(time);
 	}
 
-	tp = tp.toFixed(dig);
-	tp2 = tp2.toFixed(dig);
-	tp3 = tp3.toFixed(dig);
-	sl = sl.toFixed(dig);
-	open = open.toFixed(dig);
-	open2 = open2.toFixed(dig);
-	open3 = open3.toFixed(dig);
+	tp = parseFloat(tp).toFixed(dig);
+	tp2 = parseFloat(tp2).toFixed(dig);
+	tp3 = parseFloat(tp3).toFixed(dig);
+	sl = parseFloat(sl).toFixed(dig);
+	open = parseFloat(open).toFixed(dig);
+	open2 = parseFloat(open2).toFixed(dig);
+	open3 = parseFloat(open3).toFixed(dig);
 	
 	if(type == "buy"){
 
