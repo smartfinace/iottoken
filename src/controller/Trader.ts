@@ -225,6 +225,17 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 			open3 = open + zone * 0.75;
 		}
 	}
+  if(tf == 5){
+		tf = "M5";
+	}else if(tf == 15){
+		tf = "M15";
+	}else if(tf == 30){
+		tf = "M30";
+	}else if(tf == 60){
+		tf = "H1";
+	}else if(tf == 240){
+		tf = "H4";
+	}
 
 	if(time != undefined){
 		 time = time.slice(0, 19).replace('T', ' '); 
