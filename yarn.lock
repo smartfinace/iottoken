@@ -549,6 +549,10 @@
   version "2.0.0"
   resolved "https://codeload.github.com/types/mysql/tar.gz/c26b1bc2bac17010081455e3127a90fb2eafcec9"
 
+"@types/node-cron@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/node-cron/-/node-cron-3.0.1.tgz#e01a874d4c2aa1a02ebc64cfd1cd8ebdbad7a996"
+
 "@types/node-telegram-bot-api@^0.53.3":
   version "0.53.3"
   resolved "https://registry.yarnpkg.com/@types/node-telegram-bot-api/-/node-telegram-bot-api-0.53.3.tgz#c5d6f7644b2f92bb61e98b8ad1f3e1b5efffca5a"

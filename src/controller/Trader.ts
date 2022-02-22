@@ -196,14 +196,14 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 	var tp2 = req.body.tp2;
 	var tp3 = req.body.tp3;
 	var sl = req.body.sl;
-
+	var time = req.body.time;
 	var dig = 0;
 	var groupSymbol = "";
 	
 	tf = (tf == "" || tf == undefined ? "H1" : tf);
 	const symbolInfo = await modules.getSymbolsInfo(symbol);
 	dig = symbolInfo.dig;
-	if(tp == undefined){
+	if(tp == undefined || tp == ""){
 		zone = Math.abs(sl-open);
 		if(type == "buy"){
 			tp = open + zone * 1.68;
@@ -219,6 +219,11 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 			open2 = open + zone * 0.5;
 			open3 = open + zone * 0.75;
 		}
+	}
+
+	if(time != undefined){
+		 time = time.slice(0, 19).replace('T', ' '); 
+		 console.log(time);
 	}
 
 	tp = tp.toFixed(dig);
@@ -247,7 +252,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
-		await updateGroup(obj.message_id);
+		//await updateGroup(obj.message_id);
 		sendSocketData(obj);
 
 	}
@@ -269,7 +274,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
-		await updateGroup(obj.message_id);
+		//await updateGroup(obj.message_id);
 		sendSocketData(obj);
 	}
 	res.send({status : "ok"});
