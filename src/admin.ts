@@ -83,7 +83,7 @@ app.post("/trader/create.html", async (req: Request, res: Response) => {
 });
 
 app.post("/trader/tradingview", async (req: Request, res: Response) => {
-	let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/tradingview`,req.body);
+	//let log: AxiosResponse = await axios.post(`${ServiceAPI}/trader/tradingview`,req.body);
 	console.log(req.body);
 	res.send({status : "ok"});
 });
