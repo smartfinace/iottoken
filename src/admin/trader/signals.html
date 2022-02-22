@@ -1,7 +1,10 @@
 <h4 class="d-flex justify-content-between">Orders
 	<div>
 		<a href="/trader/create.html" class="btn btn-primary btn-sm">Create</a>
-		<a class="btn btn-danger btn-sm" href="/trader/alert-0-channel.html"><i class="fa fa-bell"></i></a>
+		<a class="btn btn-danger btn-sm" href="/trader/alert-1-channel.html"><i class="fa fa-bell"></i> Alert Start</a>
+		<a class="btn btn-danger btn-sm" href="/trader/alert-0-channel.html"><i class="fa fa-bell"></i> Alert Ads</a>
+		<a class="btn btn-danger btn-sm" href="/trader/alert-1-channel.html"><i class="fa fa-bell"></i> Alert Ruller</a>
+
 	</div>
 </h4>
 <div class="table-responsive">
@@ -29,7 +32,7 @@
 		<td><%= data.opentime %></td>
 		<td class="text-right" style="width:1%; white-space: nowrap;">
 			
-			<a class="btn btn-danger btn-sm" href="/trader/telegram-<%= data.telegram_id %>.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-telegram"></i></a>
+			<a class="btn btn-<% if(data.telegram_group_id > 0){%>primary<%}else{%>danger<%} %> btn-sm" href="/trader/telegram-<%= data.telegram_id %>.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-telegram" aria-hidden="true"></i></a>
 			<a class="btn btn-danger btn-sm" href="/trader/alert-<%= data.id %>-1.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-bell"></i></a>
 			<a class="btn btn-danger btn-sm" href="/trader/delete-<%= data.id %>.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-trash"></i></a>
 		</td>
