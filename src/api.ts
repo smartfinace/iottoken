@@ -113,6 +113,7 @@ async function ServiceCheckSerial() {
             let jsonUser = JSON.parse(jsonSerial);
             let meta_id = jsonUser.id;
             let endtime = jsonUser.endtime;
+            console.log(jsonUser);
             await sock.send(JSON.stringify({"status":(Date.now() < endtime ? "unlock" : "exit"),"meta_id" : meta_id}));
         }catch (e) {
         	await sock.send("error")
