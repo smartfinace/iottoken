@@ -349,9 +349,20 @@ const sendTelegramReport = async (obj:any={}, objCustoms:any={}) => {
 
 
 async function sendSocketData(data:any={}){
+	var order = {
+		symbol : data.symbol,
+		open : data.open,
+		sl : data.sl,
+		tp : data.tp,
+		tp2: data.tp2,
+		tp3 : data.tp3,
+		dca:data.open2,
+		dca2 : data.open3,
+		telegram : data.message_id
+	}
   const sock = new zmq.Request
   await sock.connect("tcp://127.0.0.1:9091")
-  await sock.send(JSON.stringify(data));
+  await sock.send(JSON.stringify(order));
   return true;
 }
 
