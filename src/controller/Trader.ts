@@ -25,8 +25,9 @@ const updateGroup = async (findSignal:number) => {
 	let getInfo = msgtelegram.data.result; 
 	getInfo.forEach(async (item:any) => {
 			if(typeof item.message === "object" && hasOwnProperty(item.message,"message_id") && hasOwnProperty(item.message,"forward_from_message_id")){
-
+				
 				 if(findSignal === item.message.forward_from_message_id){
+
 				 	if(hasOwnProperty(item.message,"from") && item.message.from.is_bot == false &&  item.message.from.first_name == 'Telegram'){
 				 	
 				 		//console.log(item.message);
@@ -35,6 +36,24 @@ const updateGroup = async (findSignal:number) => {
 				 }
 			}
 	});
+	return true;
+	
+};
+
+const updateGroupComment = async (findSignal:number) => {
+	let msgtelegram:AxiosResponse = await axios.get(`https://api.telegram.org/bot${token}/getChat?chat_id=${commentGroups}`);
+	let getInfo = msgtelegram.data.result.pinned_message; 
+	if(typeof getInfo === "object" && hasOwnProperty(getInfo,"message_id") && hasOwnProperty(getInfo,"forward_from_message_id")){
+				
+				 if(findSignal === getInfo.forward_from_message_id){
+
+				 	if(hasOwnProperty(getInfo,"from") && getInfo.from.is_bot == false &&  getInfo.from.first_name == 'Telegram'){
+				 	
+				 		//console.log(item.message);
+				 		await modules.updateGroups(findSignal, getInfo.message_id);
+				 	}
+				 }
+			}
 	return true;
 	
 };
@@ -287,7 +306,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
-		//await updateGroup(obj.message_id);
+		await updateGroupComment(obj.message_id);
 		sendSocketData(obj);
 
 	}
@@ -309,7 +328,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
-		//await updateGroup(obj.message_id);
+		await updateGroupComment(obj.message_id);
 		sendSocketData(obj);
 	}
 	res.send({status : "ok"});
