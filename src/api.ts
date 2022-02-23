@@ -89,7 +89,9 @@ async function sendData(data:any={}){
       return true;
     } catch (err) {
         console.log("Connect time out");
+        return true;
     }
+    return true;
 }
 
 
