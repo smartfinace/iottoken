@@ -216,16 +216,16 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 	if(tp == undefined || tp == ""){
 		zone = Math.abs(sl-open);
 		if(type == "buy"){
-			tp = parseFloat(open) + parseFloat(zone * 1.68);
-			tp2 = parseFloat(open) + parseFloat(zone * 2.68);
-			tp3 = parseFloat(open) + parseFloat(zone * 3.68);
+			tp = parseFloat(open) + (zone * 1.68);
+			tp2 = parseFloat(open) + (zone * 2.68);
+			tp3 = parseFloat(open) + (zone * 3.68);
 			open2 = parseFloat(open) - (zone * 0.5);
 			open3 = parseFloat(open) - (zone * 0.75);
 		}
 		if(type == "sell"){
-			tp = parseFloat(open) - parseFloat(zone * 1.68);
-			tp2 = parseFloat(open) - parseFloat(zone * 2.68);
-			tp3 = parseFloat(open) - parseFloat(zone * 3.68);
+			tp = parseFloat(open) - (zone * 1.68);
+			tp2 = parseFloat(open) - (zone * 2.68);
+			tp3 = parseFloat(open) - (zone * 3.68);
 			open2 = parseFloat(open) + (zone * 0.5);
 			open3 = parseFloat(open) + (zone * 0.75);
 		}
