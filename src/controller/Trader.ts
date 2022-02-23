@@ -377,7 +377,7 @@ const sendTelegramReport = async (obj:any={}, objCustoms:any={}) => {
 		}
 
 		await bot.sendMessage(commentGroups, msg,{reply_to_message_id : objCustoms.reply_id});
-	catch (err) {
+	}catch (err) {
       console.log("Connect time out");
   }
 	//console.log(msgTelegram);
