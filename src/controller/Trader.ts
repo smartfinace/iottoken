@@ -12,7 +12,7 @@ import axios, {AxiosResponse} from 'axios';
 
 
 var commentGroups = "@smartiqx"
-var AliasChannel = "@vsmartchannel";
+var AliasChannel = "";
 function hasOwnProperty<T, K extends PropertyKey>(
     obj: T,
     prop: K
@@ -178,7 +178,7 @@ router.post("/alert",async (req: Request, res: Response, next: NextFunction) => 
 	var target = req.body.target == undefined ? 0 : req.body.target;
 	let getOrderInfo = await modules.getOrdersInfo(id);
 	if(target == "channel"){
-		var msg = "Smart AI Signals, Forex, Crypto, Stock.Auto Copy all exchange 0%. Share and Follow Channel https://t.me/vsmartfx, Website : https://expressiq.co";
+		var msg = "Smart AI Signals, Forex, Crypto, Stock.Auto Copy all exchange 0%\nShare and Follow Channel https://t.me/vsmartfx\nWebsite : https://expressiq.co";
 		await bot.sendMessage(commentGroups, msg);
 	}else{
 		var msg = "🌹Running in profit, Wait TP, or move sl entry or close 1/2";
@@ -345,7 +345,7 @@ const sendTelegram = async (obj:any={}) => {
 		let mysqlDate = new Date().toISOString().slice(0, 19).replace('T', ' '); 
 		var msg = "🌷"+obj.symbol+" ["+obj.type.toUpperCase()+"] "+obj.tf+"\n🔹Open : "+obj.open+"\n🔹Limit 1: "+obj.open_2+"\n🔹Limit 2: "+obj.open_3+"\n🔴Stoploss : "+obj.sl+"\n✅Takeprofit : "+obj.tp+"\n📅Time : "+mysqlDate;
 		
-		await bot.sendMessage(AliasChannel,msg);
+		if(AliasChannel != "") await bot.sendMessage(AliasChannel,msg);
 		if(obj.chart != ""){
 			let msgTelegram = await bot.sendPhoto(channel,obj.chart,{
 				
@@ -384,7 +384,7 @@ const sendTelegramReport = async (obj:any={}, objCustoms:any={}) => {
 		}
 
 		await bot.sendMessage(commentGroups, msg,{reply_to_message_id : objCustoms.reply_id});
-		await bot.sendMessage(AliasChannel,msg + "\n\n\nWebsite https://expressiq.co\nJoin Groups get more signal Free\nChannel : https://t.me/vsmartfx\nGroups : https://t.me/smartiqx\nProfit 1000 - 10000 pips / month\nAll Free");
+		if(AliasChannel != "") await bot.sendMessage(AliasChannel,msg + "\n\n\nWebsite https://expressiq.co\nJoin Groups get more signal Free\nChannel : https://t.me/vsmartfx\nGroups : https://t.me/smartiqx\nProfit 1000 - 10000 pips / month\nAll Free");
 	}catch (err) {
       console.log("Connect time out");
   }
