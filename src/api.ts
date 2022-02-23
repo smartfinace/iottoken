@@ -102,7 +102,7 @@ ServiceCheckSerial();
 ServiceReportSignal();
 
 async function ServiceCheckSerial() {
-    try{
+    
       console.log("Start Service Serial")
       const sock = new zmq.Reply;
 
@@ -121,24 +121,23 @@ async function ServiceCheckSerial() {
                 //console.log(jsonUser);
                 await sock.send(JSON.stringify({"status":(Date.now() < endtime ? "unlock" : "unlock"),"meta_id" : meta_id}));
             }catch (e) {
-            	await sock.send("error")
+            	console.log("Send Error");
             }
         }else{
-        	await sock.send("error")
+        	console.log("Send Error");
         }
         
       }
-    } catch (err) {
-        console.log("Connect time out");
-    }
+    
 }
 
 async function ServiceReportSignal() {
-    try{
-    	console.log("Start Service Report Order")
+    console.log("Start Service Report Order")
       const sock = new zmq.Reply;
 
       await sock.bind("tcp://0.0.0.0:9002");
+    try{
+    	
       for await (const [result] of sock) {
 
     	  let data = JSON.parse(result.toString());
