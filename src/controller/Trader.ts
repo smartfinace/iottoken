@@ -336,43 +336,50 @@ router.get('/symbol', async (req: Request, res: Response, next: NextFunction) =>
 });
 
 const sendTelegram = async (obj:any={}) => {
-	let mysqlDate = new Date().toISOString().slice(0, 19).replace('T', ' '); 
-	var msg = "🌷"+obj.symbol+" ["+obj.type.toUpperCase()+"] "+obj.tf+"\n🔹Open : "+obj.open+"\n🔹Limit 1: "+obj.open_2+"\n🔹Limit 2: "+obj.open_3+"\n🔴Stoploss : "+obj.sl+"\n✅Takeprofit : "+obj.tp+"\n📅Time : "+mysqlDate;
-	if(obj.chart != ""){
-		let msgTelegram = await bot.sendPhoto(channel,obj.chart,{
+	try{
+		let mysqlDate = new Date().toISOString().slice(0, 19).replace('T', ' '); 
+		var msg = "🌷"+obj.symbol+" ["+obj.type.toUpperCase()+"] "+obj.tf+"\n🔹Open : "+obj.open+"\n🔹Limit 1: "+obj.open_2+"\n🔹Limit 2: "+obj.open_3+"\n🔴Stoploss : "+obj.sl+"\n✅Takeprofit : "+obj.tp+"\n📅Time : "+mysqlDate;
+		if(obj.chart != ""){
+			let msgTelegram = await bot.sendPhoto(channel,obj.chart,{
+				
+				caption : msg,
+				
+			});
+			return msgTelegram.message_id;
+		}else{
+			let msgTelegram = await bot.sendMessage(channel, msg);
+			return msgTelegram.message_id;
 			
-			caption : msg,
-			
-		});
-		return msgTelegram.message_id;
-	}else{
-		let msgTelegram = await bot.sendMessage(channel, msg);
-		return msgTelegram.message_id;
-		
 
-	}
+		}
+	}catch (err) {
+      console.log("Connect time out");
+  }
 	return 0;
 }
 
 const sendTelegramReport = async (obj:any={}, objCustoms:any={}) => {
-	let mysqlDate = new Date().toISOString().slice(0, 19).replace('T', ' '); 
-	var tp = obj.tp;
-	if(objCustoms.target == 2) tp = obj.tp_2;
-	if(objCustoms.target == 3) tp = obj.tp_3;
-	var targetType = "";
-	if(objCustoms.target == 2 || objCustoms.target == 3){
-		targetType = "[VIP]";
-	}
-	var msg = "✅"+obj.type.toUpperCase()+" "+obj.symbol+" "+targetType+"\n💥Hit TP "+objCustoms.target+" : "+tp+"\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
-	if(objCustoms.target == 0){
-		msg = "❌"+obj.type.toUpperCase()+" "+obj.symbol+"\n🐥Hit SL : "+obj.sl+"\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
-	}
-	if(objCustoms.target == 4){
-		msg = "👥"+obj.type.toUpperCase()+" "+obj.symbol+"\n🐹Close\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
-	}
+	try{
+		let mysqlDate = new Date().toISOString().slice(0, 19).replace('T', ' '); 
+		var tp = obj.tp;
+		if(objCustoms.target == 2) tp = obj.tp_2;
+		if(objCustoms.target == 3) tp = obj.tp_3;
+		var targetType = "";
+		if(objCustoms.target == 2 || objCustoms.target == 3){
+			targetType = "[VIP]";
+		}
+		var msg = "✅"+obj.type.toUpperCase()+" "+obj.symbol+" "+targetType+"\n💥Hit TP "+objCustoms.target+" : "+tp+"\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
+		if(objCustoms.target == 0){
+			msg = "❌"+obj.type.toUpperCase()+" "+obj.symbol+"\n🐥Hit SL : "+obj.sl+"\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
+		}
+		if(objCustoms.target == 4){
+			msg = "👥"+obj.type.toUpperCase()+" "+obj.symbol+"\n🐹Close\n💰Profit : "+objCustoms.pip+" Pips\n📅Time : "+mysqlDate;
+		}
 
-	let msgTelegram = await bot.sendMessage(commentGroups, msg,{reply_to_message_id : objCustoms.reply_id});
-
+		await bot.sendMessage(commentGroups, msg,{reply_to_message_id : objCustoms.reply_id});
+	catch (err) {
+      console.log("Connect time out");
+  }
 	//console.log(msgTelegram);
 	return true;
 }
