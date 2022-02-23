@@ -400,10 +400,10 @@ async function sendSocketData(data:any={}){
 		open : data.open,
 		sl : data.sl,
 		tp : data.tp,
-		tp2: data.tp2,
-		tp3 : data.tp3,
-		dca:data.open2,
-		dca2 : data.open3,
+		tp2: data.tp_2,
+		tp3 : data.tp_3,
+		dca:data.open_2,
+		dca2 : data.open_3,
 		telegram : data.message_id
 	}
 	try{
