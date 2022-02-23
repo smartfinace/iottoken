@@ -25,8 +25,13 @@ const updateGroup = async (findSignal:number) => {
 	let getInfo = msgtelegram.data.result; 
 	getInfo.forEach(async (item:any) => {
 			if(typeof item.message === "object" && hasOwnProperty(item.message,"message_id") && hasOwnProperty(item.message,"forward_from_message_id")){
+
 				 if(findSignal === item.message.forward_from_message_id){
+				 	if(hasOwnProperty(item.message,"from") && item.message.from.is_bot == false &&  item.message.from.first_name == 'Telegram'){
+				 	
+				 		//console.log(item.message);
 				 		await modules.updateGroups(findSignal, item.message.message_id);
+				 	}
 				 }
 			}
 	});
