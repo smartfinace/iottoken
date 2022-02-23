@@ -82,10 +82,14 @@ app.use((req, res, next) => {
 
 
 async function sendData(data:any={}){
-	const sock = new zmq.Request
-  await sock.connect("tcp://127.0.0.1:9091")
-  await sock.send(JSON.stringify(data));
-  return true;
+    try{
+      const sock = new zmq.Request
+      await sock.connect("tcp://127.0.0.1:9091")
+      await sock.send(JSON.stringify(data));
+      return true;
+    } catch (err) {
+        console.log("Connect time out");
+    }
 }
 
 
@@ -98,59 +102,67 @@ ServiceCheckSerial();
 ServiceReportSignal();
 
 async function ServiceCheckSerial() {
-	console.log("Start Service Serial")
-  const sock = new zmq.Reply;
+    try{
+      console.log("Start Service Serial")
+      const sock = new zmq.Reply;
 
-  await sock.bind("tcp://0.0.0.0:9001");
+      await sock.bind("tcp://0.0.0.0:9001");
 
-  for await (const [msg] of sock) {
-  	console.log("Unlock Connect");
-  	let serial = msg.toString();
-    if(serial != null && serial != ""){
-        try {
-            let buff = new Buffer(serial, 'base64');
-            let jsonSerial = buff.toString('ascii');
-            let jsonUser = JSON.parse(jsonSerial);
-            let meta_id = jsonUser.id;
-            let endtime = jsonUser.endtime;
-            //console.log(jsonUser);
-            await sock.send(JSON.stringify({"status":(Date.now() < endtime ? "unlock" : "unlock"),"meta_id" : meta_id}));
-        }catch (e) {
+      for await (const [msg] of sock) {
+      	console.log("Unlock Connect");
+      	let serial = msg.toString();
+        if(serial != null && serial != ""){
+            try {
+                let buff = new Buffer(serial, 'base64');
+                let jsonSerial = buff.toString('ascii');
+                let jsonUser = JSON.parse(jsonSerial);
+                let meta_id = jsonUser.id;
+                let endtime = jsonUser.endtime;
+                //console.log(jsonUser);
+                await sock.send(JSON.stringify({"status":(Date.now() < endtime ? "unlock" : "unlock"),"meta_id" : meta_id}));
+            }catch (e) {
+            	await sock.send("error")
+            }
+        }else{
         	await sock.send("error")
         }
-    }else{
-    	await sock.send("error")
+        
+      }
+    } catch (err) {
+        console.log("Connect time out");
     }
-    
-  }
 }
 
 async function ServiceReportSignal() {
-	console.log("Start Service Report Order")
-  const sock = new zmq.Reply;
+    try{
+    	console.log("Start Service Report Order")
+      const sock = new zmq.Reply;
 
-  await sock.bind("tcp://0.0.0.0:9002");
-  for await (const [result] of sock) {
+      await sock.bind("tcp://0.0.0.0:9002");
+      for await (const [result] of sock) {
 
-	  let data = JSON.parse(result.toString());
-	  //await closeOrders({message_id : data.message_id, close : data.close, profit : data.profit, pip : data.pips});
-	  var type = data.type;
-	  var msg = "";
-	  if(type == "close"){
-	      msg = "Close at "+data.close+"\nProfit : "+data.pips+" PIP(s)";
-	  }
-	  if(type == "hitsl"){
-	      msg = "Hit SL "+data.close+"\nProfit : "+data.pips+" PIP(s)";
-	  }
-	  if(type == "hittp"){
-	      msg = "Hit TP "+data.close+"\n✅ Profit : "+data.pips+" PIP(s)";
-	  }
+    	  let data = JSON.parse(result.toString());
+    	  //await closeOrders({message_id : data.message_id, close : data.close, profit : data.profit, pip : data.pips});
+    	  var type = data.type;
+    	  var msg = "";
+    	  if(type == "close"){
+    	      msg = "Close at "+data.close+"\nProfit : "+data.pips+" PIP(s)";
+    	  }
+    	  if(type == "hitsl"){
+    	      msg = "Hit SL "+data.close+"\nProfit : "+data.pips+" PIP(s)";
+    	  }
+    	  if(type == "hittp"){
+    	      msg = "Hit TP "+data.close+"\n✅ Profit : "+data.pips+" PIP(s)";
+    	  }
 
-	  if(msg !=""){
-	  	//bot.sendMessage(channel,msg,{reply_to_message_id: data.message_id});
-	  }
-	  
-	  sock.send("ok");
-	}
+    	  if(msg !=""){
+    	  	//bot.sendMessage(channel,msg,{reply_to_message_id: data.message_id});
+    	  }
+    	  
+    	  sock.send("ok");
+    	}
+    } catch (err) {
+        console.log("Connect time out");
+    }
   
 }
