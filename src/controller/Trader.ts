@@ -41,6 +41,13 @@ router.post('/updateg', async (req: Request, res: Response, next: NextFunction) 
     res.send("ok");
 });
 
+router.post('/update-telegram', async (req: Request, res: Response, next: NextFunction) => {
+		var id = Number(req.body.id);
+	  await updateGroup(id);
+
+    res.send("ok");
+});
+
 router.get('/signal', async (req: Request, res: Response, next: NextFunction) => {
 
 	var l = Number(req.query.l);
