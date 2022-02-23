@@ -212,22 +212,22 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 	if(chart == undefined || chart == "") chart = "";
 	open = parseFloat(open).toFixed(dig);
 	sl = parseFloat(sl).toFixed(dig);
-	
+
 	if(tp == undefined || tp == ""){
 		zone = Math.abs(sl-open);
 		if(type == "buy"){
-			tp = open + zone * 1.68;
-			tp2 = open + zone * 2.68;
-			tp3 = open + zone * 3.68;
-			open2 = open - zone * 0.5;
-			open3 = open - zone * 0.75;
+			tp = parseFloat(open) + parseFloat(zone * 1.68);
+			tp2 = parseFloat(open) + parseFloat(zone * 2.68);
+			tp3 = parseFloat(open) + parseFloat(zone * 3.68);
+			open2 = parseFloat(open) - (zone * 0.5);
+			open3 = parseFloat(open) - (zone * 0.75);
 		}
 		if(type == "sell"){
-			tp = open - zone * 1.68;
-			tp2 = open - zone * 2.68;
-			tp3 = open - zone * 3.68;
-			open2 = open + zone * 0.5;
-			open3 = open + zone * 0.75;
+			tp = parseFloat(open) - parseFloat(zone * 1.68);
+			tp2 = parseFloat(open) - parseFloat(zone * 2.68);
+			tp3 = parseFloat(open) - parseFloat(zone * 3.68);
+			open2 = parseFloat(open) + (zone * 0.5);
+			open3 = parseFloat(open) + (zone * 0.75);
 		}
 	}
   if(tf == 5){
@@ -374,6 +374,7 @@ const sendTelegramReport = async (obj:any={}, objCustoms:any={}) => {
 async function sendSocketData(data:any={}){
 	var order = {
 		symbol : data.symbol,
+		type : data.type,
 		open : data.open,
 		sl : data.sl,
 		tp : data.tp,
@@ -383,9 +384,14 @@ async function sendSocketData(data:any={}){
 		dca2 : data.open3,
 		telegram : data.message_id
 	}
-  const sock = new zmq.Request
-  await sock.connect("tcp://127.0.0.1:9091")
-  await sock.send(JSON.stringify(order));
+	try{
+	  const sock = new zmq.Request
+	  await sock.connect("tcp://127.0.0.1:9091")
+	  await sock.send(JSON.stringify(order));
+	  return true;
+  } catch (err) {
+      console.log("Connect time out");
+  }
   return true;
 }
 
