@@ -146,7 +146,7 @@ const getReport = async () =>{
     try {
         const conn = await connect();
         
-        const [rows, fields] = await conn.query("SELECT *, (tp_total_pips - tp_total_vip_pips) as tp_total_free_pips, (sl_total + tp_total) as finish_total, (stock_symbol + forex_symbol + crypto_symbol) as symbol_total, (sl_total_pips + tp_total_vip_pips + tp_total_pips) as profit_total (SELECT COUNT(*) FROM trader_signals) as wait_orders FROM trader_report WHERE id='1'")  as any;
+        const [rows, fields] = await conn.query("SELECT *, (tp_total_pips - tp_total_vip_pips) as tp_total_free_pips, (sl_total + tp_total) as finish_total, (stock_symbol + forex_symbol + crypto_symbol) as symbol_total, (sl_total_pips + tp_total_vip_pips + tp_total_pips) as profit_total, (SELECT COUNT(*) FROM trader_signals) as wait_orders FROM trader_report WHERE id='1'")  as any;
         return rows[0];
     }
     catch (e) {
