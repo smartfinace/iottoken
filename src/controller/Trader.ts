@@ -144,13 +144,18 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 		point = 0.00001;
 	}else if(symbol.dig == 2){
 		pipsfactor=100;
-		point = 0.1;
+		point = 0.01;
 		if(symbol.symbol == "BTCUSD" || symbol.symbol == "ETHUSD"){
 			pipsfactor=100;
+			point = 0.1;
 		}
 		if(symbol.symbol == "XAUUSD"){
 			pipsfactor=10;
 			point = 0.001;
+		}
+		if(symbol.symbol == "USOIL"){
+			pipsfactor=10;
+			point = 1;
 		}
 	}
 
