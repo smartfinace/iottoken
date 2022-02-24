@@ -155,7 +155,7 @@ router.post("/finish",async (req: Request, res: Response, next: NextFunction) =>
 		}
 		if(symbol.symbol == "USOIL"){
 			pipsfactor=10;
-			point = 1;
+			point = 0.01;
 		}
 	}
 
