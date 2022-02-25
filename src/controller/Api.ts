@@ -1,28 +1,24 @@
 import express, {Request, Response, NextFunction } from 'express';
-import modules from '../modules/Traders';
+//import modules from '../modules/Traders';
 const router = express.Router();
-import TelegramBot from "node-telegram-bot-api";
-import * as jsonfile from "./../data.json"
-const token = jsonfile.telegram.token;
-const channel = jsonfile.telegram.channel;
-const bot = new TelegramBot(token, {polling: false});
 
-router.get('/tradingview', async (req: Request, res: Response, next: NextFunction) => {
+router.post("/serial",async (req: Request, res: Response, next: NextFunction) => {
+	let data = req.body.id;
+		let buff = new Buffer(data);
+		let base64data = buff.toString('base64');
+		//res.setHeader('Content-Type', 'application/json');
+		let newTime = new Date(new Date().getTime() + ((24*30) * 60 * 60 * 1000));
+		let download = new Buffer(JSON.stringify({"id" : data, "serial" : base64data, "endtime" : newTime}, null, 2));
+		
+		const fileName = data+'.key'
+	  const fileType = 'text/plain'
 
-	var symbol = req.body.symbol;
-	var msg = "";
-	var type = req.body.type;
-	var tf = req.body.tf;
-	var settp = req.body.tp;
-	var chart = req.body.chart;
-	let zone: any = 0;
-	let tp: any = 0;
-	let open_2: any = 0;
-	let open_3: any = 0;
-	let dig = 0;
-	let groupSymbol = "";
+	  res.writeHead(200, {
+	    'Content-Disposition': `attachment; filename="${fileName}"`,
+	    'Content-Type': fileType,
+	  });
+
+    res.end(download.toString('base64'));
 });
-
-
 
 export = router;

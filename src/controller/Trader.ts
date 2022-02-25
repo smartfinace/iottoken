@@ -9,7 +9,7 @@ const channel = jsonfile.telegram.channel;
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: false});
 import axios, {AxiosResponse} from 'axios';
-
+const sock = new zmq.Request
 
 var commentGroups = "@smartiqx"
 var AliasChannel = "";
@@ -42,7 +42,9 @@ const updateGroup = async (findSignal:number) => {
 
 const updateGroupComment = async (findSignal:number) => {
 	let msgtelegram:AxiosResponse = await axios.get(`https://api.telegram.org/bot${token}/getChat?chat_id=${commentGroups}`);
+	if(typeof msgtelegram.data.result != "object" && hasOwnProperty(msgtelegram.data.result,"pinned_message")) return false;
 	let getInfo = msgtelegram.data.result.pinned_message; 
+
 	if(typeof getInfo === "object" && hasOwnProperty(getInfo,"message_id") && hasOwnProperty(getInfo,"forward_from_message_id")){
 				
 				 if(findSignal === getInfo.forward_from_message_id){
@@ -311,7 +313,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
-		await updateGroupComment(obj.message_id);
+		//await updateGroupComment(obj.message_id);
 		sendSocketData(obj);
 
 	}
@@ -333,29 +335,12 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
-		await updateGroupComment(obj.message_id);
+		//await updateGroupComment(obj.message_id);
 		sendSocketData(obj);
 	}
 	res.send({status : "ok"});
 });
-router.post("/serial/:id",async (req: Request, res: Response, next: NextFunction) => {
-	let data = req.params.id;
-		let buff = new Buffer(data);
-		let base64data = buff.toString('base64');
-		//res.setHeader('Content-Type', 'application/json');
-		let newTime = new Date(new Date().getTime() + ((24*30) * 60 * 60 * 1000));
-		let download = new Buffer(JSON.stringify({"id" : data, "serial" : base64data, "endtime" : newTime}, null, 2));
-		
-		const fileName = data+'.key'
-	  const fileType = 'text/plain'
 
-	  res.writeHead(200, {
-	    'Content-Disposition': `attachment; filename="${fileName}"`,
-	    'Content-Type': fileType,
-	  });
-
-    res.end(download.toString('base64'));
-});
 
 router.get('/symbol', async (req: Request, res: Response, next: NextFunction) => {
 	let data = await modules.getSymbols();
@@ -430,15 +415,11 @@ async function sendSocketData(data:any={}){
 		dca2 : data.open_3,
 		telegram : data.message_id
 	}
-	try{
-	  const sock = new zmq.Request
+	
 	  await sock.connect("tcp://127.0.0.1:9091")
 	  await sock.send(JSON.stringify(order));
 	  return true;
-  } catch (err) {
-      console.log("Connect time out");
-  }
-  return true;
+  
 }
 
 //router.post('/update/:id', modules.updateAds);

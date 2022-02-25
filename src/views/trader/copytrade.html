@@ -21,15 +21,15 @@
                         <div class="card">
                         <h4>Setup Service</h4>
                         <hr>
-                        <form>
+                        <form method="post" action="/api/serial">
                           <div class="form-group">
                             <label for="exampleInputEmail1">MT4/MT5 ID</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <input type="text" class="form-control" name="meta_id" id="exampleInputEmail1" aria-describedby="emailHelp">
                             <small id="emailHelp" class="form-text text-muted">Enter mt4 or mt5 ID.</small>
                           </div>
                           <div class="form-group">
                             <label for="exampleInputPassword1">Unlock Time</label>
-                            <select  class="form-control">
+                            <select  class="form-control" name="timeexit">
                                 <option value="1">1 Month</option>
                                 <option value="2">2 Month</option>
                                 <option value="3" selected>3 Month (Save Off 5%)</option>

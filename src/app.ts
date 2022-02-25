@@ -7,10 +7,7 @@ import expressLayouts from 'express-ejs-layouts';
 import ejs from 'ejs';
 
 import bodyParser from "body-parser";
-import { connect } from './database';
-import net from 'net';
-const client = new net.Socket();
-import * as zmq from "zeromq"
+import api from './controller/Api';
 import * as jsonfile from "./data.json"
 //const reqSock = new Request()
 //const repSock = new zmq.Reply()
@@ -79,33 +76,7 @@ app.get("/games.html", async (req: Request, res: Response) => {
 	res.render("games/service",{page : jsonfile.games});
 });
 
-app.get("/cdkey", (req: Request, res: Response) => {
-	res.render("cdkey",{page : jsonfile.ido})
-});
-
-
-
-
-app.get("/serial/:id", async (req: Request, res: Response) => {
-
-		let data = req.params.id;
-		let buff = new Buffer(data);
-		let base64data = buff.toString('base64');
-		//res.setHeader('Content-Type', 'application/json');
-		let newTime = new Date(new Date().getTime() + ((24*30) * 60 * 60 * 1000));
-		let download = new Buffer(JSON.stringify({"id" : data, "serial" : base64data, "endtime" : newTime}, null, 2));
-		
-		const fileName = data+'.key'
-	  const fileType = 'text/plain'
-
-	  res.writeHead(200, {
-	    'Content-Disposition': `attachment; filename="${fileName}"`,
-	    'Content-Type': fileType,
-	  });
-
-    res.end(download.toString('base64'));
-
-});
+app.post("/api", api);
 
 
 /** Error handling */
