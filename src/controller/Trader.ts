@@ -430,7 +430,7 @@ async function sendSocketData(data:any={}){
 			client.write(JSON.stringify(order));
 		});
 
-		client.on('data', function(data) {
+		client.on('data', function(data:any="") {
 			console.log('Received: ' + data);
 			client.destroy(); // kill client after server's response
 		});
@@ -438,7 +438,7 @@ async function sendSocketData(data:any={}){
 		client.on('close', function() {
 			console.log('Connection closed');
 		});
-		client.on('error', function(err){
+		client.on('error', function(err:any={}){
 		    console.log("Error: "+err.message);
 		});
 	}catch (err) {

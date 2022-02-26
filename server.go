@@ -28,7 +28,7 @@ func main() {
   if err != nil {
     log.Fatal(err)
   }
-
+  defer server.Close()
   go func() {
     for {
       conn, err := server.Accept()
