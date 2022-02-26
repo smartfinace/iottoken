@@ -26,9 +26,24 @@
 		<td><%= data.open_2 %></td>
 		<td><%= data.open_3 %></td>
 		<td><div class="d-flex justify-content-between"><%= data.sl %><a class="btn btn-primary btn-sm" href="/trader/finish-<%= data.id %>-0.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-check"></i></a></div></td>
-		<td><div class="d-flex justify-content-between"><%= data.tp %><a class="btn btn-primary btn-sm" href="/trader/finish-<%= data.id %>-1.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-check"></i></a></div></td>
-		<td><div class="d-flex justify-content-between"><%= data.tp_2 %><a class="btn btn-primary btn-sm" href="/trader/finish-<%= data.id %>-2.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-check"></i></a></div></td>
-		<td><div class="d-flex justify-content-between"><%= data.tp_3 %><a class="btn btn-primary btn-sm" href="/trader/finish-<%= data.id %>-3.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-check"></i></a></div></td>
+		<td><div class="d-flex justify-content-between"><%= data.tp %>
+			<% if(data.tp_hit < 1){%>
+			<a class="btn btn-primary btn-sm" href="/trader/finish-<%= data.id %>-1.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-check"></i></a>
+			<%}%>
+			</div></td>
+		<td><div class="d-flex justify-content-between"><%= data.tp_2 %>
+			<% if(data.tp_hit < 2){%>
+			<a class="btn btn-primary btn-sm" href="/trader/finish-<%= data.id %>-2.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-check"></i></a>
+			<%}%>
+		</div></td>
+		<td>
+			<div class="d-flex justify-content-between">
+				<%= data.tp_3 %>
+				<% if(data.tp_hit < 3){%>
+				<a class="btn btn-primary btn-sm" href="/trader/finish-<%= data.id %>-3.html" style="min-width: 20px; padding: 3px;"><i class="fa fa-check"></i></a>
+				<%}%>
+			</div>
+		</td>
 		<td><%= data.opentime %></td>
 		<td class="text-right" style="width:1%; white-space: nowrap;">
 			
