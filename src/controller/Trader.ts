@@ -11,8 +11,8 @@ const bot = new TelegramBot(token, {polling: false});
 import axios, {AxiosResponse} from 'axios';
 const sock = new zmq.Request
 
-const Net = require('net');
-const client = new Net.Socket();
+const net = require('net');
+
 
 var commentGroups = "@smartiqx"
 var AliasChannel = "";
@@ -421,14 +421,29 @@ async function sendSocketData(data:any={}){
 	
 	//  await sock.connect("tcp://127.0.0.1:9091")
 	//  await sock.send(JSON.stringify(order));
-	client.connect({ port: 9090, host: "127.0.0.1" }, function() {
-	    // If there is no error, the server has accepted the request and created a new 
-	    // socket dedicated to us.
-	    console.log('TCP connection established with the server.');
+	
 
-	    // The client can now send data to the server by writing to its socket.
-	    client.write(JSON.stringify(order));
-	});
+	var client = new net.Socket();
+	try{
+		client.connect(9090, '127.0.0.1', function() {
+			console.log('Connected');
+			client.write(JSON.stringify(order));
+		});
+
+		client.on('data', function(data) {
+			console.log('Received: ' + data);
+			client.destroy(); // kill client after server's response
+		});
+
+		client.on('close', function() {
+			console.log('Connection closed');
+		});
+		client.on('error', function(err){
+		    console.log("Error: "+err.message);
+		});
+	}catch (err) {
+	      console.log("Connect time out");
+	}
 	return true;
   
 }
