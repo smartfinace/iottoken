@@ -52,7 +52,7 @@ func handleConnection(id string, conn net.Conn, connMap *sync.Map) {
 }
 
 func main() {
-    ln, err := net.Listen("tcp", "127.0.0.1:9090")
+    ln, err := net.Listen("tcp", "0.0.0.0:9090")
     if err != nil {
         log.Fatal(err)
     }
