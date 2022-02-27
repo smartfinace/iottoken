@@ -47,7 +47,9 @@ func handleConnection(id string, conn net.Conn, connMap *sync.Map) {
     }
 
     if err := scanner.Err(); err != nil {
-        fmt.Println("error:", err)
+        fmt.Println("error connect:", err)
+        conn.Close()
+        connMap.Delete(id)
     }
 }
 
