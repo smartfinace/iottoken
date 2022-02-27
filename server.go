@@ -1,97 +1,75 @@
 package main
-
 import (
-  "net"
-  "log"
-  "fmt"
-  "bufio"
-  //"strings"
-  //"encoding/json"
-  //"io/ioutil"
-  //"os"
-  //"reflect"
-  //"net/http"
+    "bufio"
+    "fmt"
+    "log"
+    "net"
+    //"strings"
+    "sync"
+    "github.com/google/uuid"
 )
 
-var (
-  conns []net.Conn
-  connCh = make(chan net.Conn)
-  closeCh = make(chan net.Conn)
-  msgCh = make(chan string)
-)
+func handleConnection(id string, conn net.Conn, connMap *sync.Map) {
+    
 
+    
+    scanner := bufio.NewScanner(conn)
+    for scanner.Scan() {
+        message := scanner.Text()
+        fmt.Println("Received:",id," ", message)
+        //newMessage := strings.ToUpper(message)
+        //conn.Write([]byte(newMessage + "\n"))
+
+        connMap.Range(func(key, value interface{}) bool {
+          
+          if key != id{
+            
+            connClient, ok := value.(net.Conn); 
+            if ok {
+              _, err := connClient.Write([]byte(message)); 
+              if err != nil {
+                connMap.Delete(key)
+                fmt.Println("Error:",key)
+
+              }else{
+                fmt.Println("Send:",key)
+              }
+            }
+          }
+          
+
+          return true
+        })
+        defer func() {
+          conn.Close()
+          connMap.Delete(id)
+        }()
+    }
+
+    if err := scanner.Err(); err != nil {
+        fmt.Println("error:", err)
+    }
+}
 
 func main() {
-  
-
-  server, err := net.Listen("tcp", "0.0.0.0:9090")
-  if err != nil {
-    log.Fatal(err)
-  }
-  defer server.Close()
-  go func() {
-    for {
-      conn, err := server.Accept()
-      if err != nil {
+    ln, err := net.Listen("tcp", "127.0.0.1:9090")
+    if err != nil {
         log.Fatal(err)
-      }
-
-      conns = append(conns, conn)
-      connCh <-conn
     }
-  }()
+
+    defer ln.Close()
+    fmt.Println("Accept connection on port")
+    var connMap = &sync.Map{}
     
-  for {
-    select {
-      case conn := <- connCh:
-        go onMessage(conn)
+    for {
+        conn, err := ln.Accept()
+        if err != nil {
+            log.Fatal(err)
+        }
+        id := uuid.New().String()
+        connMap.Store(id, conn)
 
-      case msg := <- msgCh:
-        fmt.Print(msg)  
-
-      case conn := <- closeCh:
-        fmt.Println("client exit")
-        removeConn(conn)  
+        fmt.Println("Client ID :",id)
+        go handleConnection(id, conn, connMap)
     }
-  }
 }
-
-func removeConn(conn net.Conn) {
-  var i int
-  for i = range conns {
-    if conns[i] == conn {
-      break
-    }
-  }
-
-  // i = ?  1 2 3 4
-  conns = append(conns[i:], conns[:i+1]...)
-}
-
-func publishMsg(conn net.Conn, msg string) {
-  for i := range conns {
-    if conns[i] != conn {
-      conns[i].Write([]byte(msg))
-    }
-  }
-  fmt.Println("Client:", len(conns))
-}
-
-func onMessage(conn net.Conn) {
-
-  for {
-    reader := bufio.NewReader(conn)
-    msg, err := reader.ReadString('\n')
-    fmt.Println(msg)
-    if err != nil && msg == ""{
-      break
-    }
-
-    msgCh <- msg
-    publishMsg(conn, msg)
-  }
-
-  closeCh <- conn
-}
-
-

@@ -427,7 +427,8 @@ async function sendSocketData(data:any={}){
 	try{
 		client.connect(9090, '127.0.0.1', function() {
 			console.log('Connected');
-			client.write(JSON.stringify(order));
+			client.write(JSON.stringify(order)+"\n");
+			client.destroy();
 		});
 
 		client.on('data', function(data:any="") {
