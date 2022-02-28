@@ -40,6 +40,8 @@ func handleConnection(id string, conn net.Conn, connMap *sync.Map) {
             err := json.Unmarshal([]byte(message), &obj)
             if err != nil {
                   fmt.Println("error json:", err)
+                  conn.Close()
+                  connMap.Delete(id)
                   break
             }
             //newMessage := strings.ToUpper(message)
