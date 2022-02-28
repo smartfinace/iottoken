@@ -53,7 +53,7 @@ func handleConnection(id string, conn net.Conn, connMap *sync.Map) {
                 
                 connClient, ok := value.(net.Conn); 
                 if ok {
-                  _, err := connClient.Write([]byte(message)); 
+                  _, err := connClient.Write([]byte(message+"\n")); 
                   if err != nil {
                     connMap.Delete(key)
                     fmt.Println("Error:",key)
