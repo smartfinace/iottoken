@@ -408,7 +408,7 @@ const sendTelegramReport = async (obj:any={}, objCustoms:any={}) => {
 async function sendSocketData(data:any={}){
 	var order = {
 		symbol : data.symbol,
-		type : data.type,
+		cm : data.type,
 		open : data.open,
 		sl : data.sl,
 		tp : data.tp,
