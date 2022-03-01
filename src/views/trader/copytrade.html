@@ -121,10 +121,10 @@
     </section>       
 </main>
 <script type="text/javascript">
-    $("#pricepayment").html(360 + " / 3 month");
+    $("#pricepayment").html(360 + "$ / 3 month");
     $("select[name=timeexit]").on("change", function(){
         var month = $(this).val();
-        $("#pricepayment").html(Number(month)*120 + " / "+month+" month");
+        $("#pricepayment").html(Number(month)*120 + "$ / "+month+" month");
     });
 </script>
 <footer class="nk-footer bg-theme-grad ov-h">
