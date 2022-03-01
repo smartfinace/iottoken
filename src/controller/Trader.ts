@@ -444,6 +444,7 @@ async function sendSocketData(data:any={}){
 		});
 	}catch (err) {
 	      console.log("Connect time out");
+	      return true;
 	}
 	return true;
   

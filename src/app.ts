@@ -45,6 +45,8 @@ app.get("/", (req: Request, res: Response) => {
 	res.render("index",{page : jsonfile.main})
 });
 
+app.use("/api", api);
+
 app.get("/crypto/ido.html", (req: Request, res: Response) => {
 	res.render("crypto/ido",{page : jsonfile.ido})
 });
@@ -76,7 +78,7 @@ app.get("/games.html", async (req: Request, res: Response) => {
 	res.render("games/service",{page : jsonfile.games});
 });
 
-app.post("/api", api);
+
 
 
 /** Error handling */

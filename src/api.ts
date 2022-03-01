@@ -80,21 +80,6 @@ app.use((req, res, next) => {
 
 
 
-
-async function sendData(data:any={}){
-    try{
-      const sock = new zmq.Request
-      await sock.connect("tcp://127.0.0.1:9091")
-      await sock.send(JSON.stringify(data));
-      return true;
-    } catch (err) {
-        console.log("Connect time out");
-        return true;
-    }
-    return true;
-}
-
-
 server.listen(port, () => {
   console.log(`SERVER RUNNING ON ${port}`);
   
@@ -107,7 +92,6 @@ async function ServiceCheckSerial() {
     
       console.log("Start Service Serial")
       const sock = new zmq.Reply;
-
       await sock.bind("tcp://0.0.0.0:9001");
 
       for await (const [msg] of sock) {
