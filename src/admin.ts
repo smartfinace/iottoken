@@ -87,7 +87,9 @@ app.post("/trader/tradingview", async (req: Request, res: Response) => {
 	  time: req.body.time,
 	  chart : ""
 	}
-	await axios.post(`${ServiceAPI}/trader/tradingview`,data);
+	axios.post(`${ServiceAPI}/trader/tradingview`,data).catch(function (error) {
+		console.log("Error post API Tradingview",error);
+	});
 	
 	res.send({status : "ok"});
 });
