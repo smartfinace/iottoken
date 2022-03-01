@@ -426,24 +426,18 @@ async function sendSocketData(data:any={}){
 	var client = new net.Socket();
 	try{
 		client.connect(9090, '127.0.0.1', function() {
-			console.log('Connected');
+			console.log('API Send Orders');
 			client.write(JSON.stringify(order)+"\n");
 			client.destroy();
 		});
 
-		client.on('data', function(data:any="") {
-			console.log('Received: ' + data);
-			client.destroy(); // kill client after server's response
-		});
-
-		client.on('close', function() {
-			console.log('Connection closed');
-		});
+		
 		client.on('error', function(err:any={}){
-		    console.log("Error: "+err.message);
+		    client.destroy();
 		});
 	}catch (err) {
 	      console.log("Connect time out");
+	      client.destroy();
 	      return true;
 	}
 	return true;
