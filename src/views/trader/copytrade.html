@@ -49,7 +49,7 @@
                           </div>
                           
                           <div class="paymentvia">
-                            <h3>Price 120$/month <span style="font-size: 12px;">(All Symbol)</span></h3>
+                            <h3>Price <span id="pricepayment">120$/month</span> <span style="font-size: 12px;">(All Symbol)</span></h3>
                             <h5>Select Payment Method</h5>
                               <div class="row">
                                   <div class="col-md-6 mb-4">
@@ -120,6 +120,13 @@
         </div>
     </section>       
 </main>
+<script type="text/javascript">
+    $("#pricepayment").html(360 + " / 3 month");
+    $("select[name=timeexit]").on("change", function(){
+        var month = $(this).val();
+        $("#pricepayment").html(Number(month)*120 + " / "+month+" month");
+    });
+</script>
 <footer class="nk-footer bg-theme-grad ov-h">
         <%- include("./../components/footer.html") %>
 </footer>
