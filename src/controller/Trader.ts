@@ -372,7 +372,8 @@ const sendTelegram = async (obj:any={}) => {
 
 		}
 	}catch (err) {
-      console.log("Connect time out");
+      console.log("Connect time out telegram");
+      return 0;
   }
 	return 0;
 }

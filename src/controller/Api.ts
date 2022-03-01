@@ -3,7 +3,8 @@ import express, {Request, Response, NextFunction } from 'express';
 const router = express.Router();
 
 router.post("/serial",async (req: Request, res: Response, next: NextFunction) => {
-	let data = req.body.id;
+	let data = req.body.meta_id;
+	if(data == "" || data == undefined) return res.status(404).render("404",{page : "Error 404"});
 		let buff = new Buffer(data);
 		let base64data = buff.toString('base64');
 		//res.setHeader('Content-Type', 'application/json');
