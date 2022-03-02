@@ -111,7 +111,7 @@ router.post("/create",async (req: Request, res: Response, next: NextFunction) =>
 		tp_2 : req.body.tp2, 
 		tp_3 : req.body.tp3,  
 		message_id : 0, 
-		tf : req.body.tf, 
+		tfs : req.body.tf, 
 		chart : req.body.chart
 	}
 	await modules.createOrders(obj);

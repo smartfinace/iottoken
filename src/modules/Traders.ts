@@ -46,7 +46,7 @@ const getOrdersInfo = async (id:number=0) =>{
     
 }
 
-const createOrders = async function(obj = {symbol : "", type : "", open : 0, open_2 : 0, open_3 : 0, sl : 0, tp : 0, tp_2 : 0, tp_3 : 0, message_id : 0, tf : "", tfs : "", chart : ""}) {
+const createOrders = async function(obj = {symbol : "", type : "", open : 0, open_2 : 0, open_3 : 0, sl : 0, tp : 0, tp_2 : 0, tp_3 : 0, message_id : 0, tfs : "", chart : ""}) {
     try {
         const conn = await connect();
         await conn.query('INSERT INTO trader_signals SET symbol="'+obj.symbol+'", type="'+obj.type+'", open="'+obj.open+'", open_2="'+obj.open_2+'", open_3="'+obj.open_3+'", sl="'+obj.sl+'", tp="'+obj.tp+'", tp_2="'+obj.tp_2+'", tp_3="'+obj.tp_3+'", telegram_id="'+obj.message_id+'", timefream="'+obj.tfs+'", chart="'+obj.chart+'"');
