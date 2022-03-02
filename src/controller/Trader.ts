@@ -271,16 +271,17 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 			open3 = parseFloat(open) + (zone * 0.75);
 		}
 	}
+  var tfs = "M5";
   if(tf == 5){
-		tf = "M5";
+		tfs = "M5";
 	}else if(tf == 15){
-		tf = "M15";
+		tfs = "M15";
 	}else if(tf == 30){
-		tf = "M30";
+		tfs = "M30";
 	}else if(tf == 60){
-		tf = "H1";
+		tfs = "H1";
 	}else if(tf == 240){
-		tf = "H4";
+		tfs = "H4";
 	}
 
 	var hour = [];
@@ -312,7 +313,8 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 			tp_3:tp3,
 			chart : chart,
 			message_id : 0,
-			tf : tf
+			tf : tf,
+			tfs : tfs
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
@@ -334,7 +336,8 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 			tp_3:tp3,
 			chart : chart,
 			message_id : 0,
-			tf : tf
+			tf : tf,
+			tfs : tfs
 		} as any;
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
@@ -355,7 +358,7 @@ router.get('/symbol', async (req: Request, res: Response, next: NextFunction) =>
 const sendTelegram = async (obj:any={}) => {
 	try{
 		let mysqlDate = new Date().toISOString().slice(0, 19).replace('T', ' '); 
-		var msg = "🌷"+obj.symbol+" ["+obj.type.toUpperCase()+"] "+obj.tf+"\n🔹Open : "+obj.open+"\n🔹Limit 1: "+obj.open_2+"\n🔹Limit 2: "+obj.open_3+"\n🔴Stoploss : "+obj.sl+"\n✅Takeprofit : "+obj.tp+"\n📅Time : "+mysqlDate;
+		var msg = "🌷"+obj.symbol+" ["+obj.type.toUpperCase()+"] "+obj.tfs+"\n🔹Open : "+obj.open+"\n🔹Limit 1: "+obj.open_2+"\n🔹Limit 2: "+obj.open_3+"\n🔴Stoploss : "+obj.sl+"\n✅Takeprofit : "+obj.tp+"\n📅Time : "+mysqlDate;
 		
 		if(AliasChannel != "") await bot.sendMessage(AliasChannel,msg);
 		if(obj.chart != ""){
@@ -417,6 +420,7 @@ async function sendSocketData(data:any={}){
 		tp3 : data.tp_3,
 		dca:data.open_2,
 		dca2 : data.open_3,
+		tf : data.tf,
 		telegram : data.message_id
 	}
 	
