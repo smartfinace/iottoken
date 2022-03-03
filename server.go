@@ -105,7 +105,7 @@ func main() {
         }
         id := uuid.New().String()
         connMap.Store(id, conn)
-
+        conn.Write([]byte("{status:\"ok\"}\n")); 
         fmt.Println("Client ID :",id)
         go handleConnection(id, conn, connMap)
     }
