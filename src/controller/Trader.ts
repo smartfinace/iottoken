@@ -355,7 +355,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
 		//await updateGroupComment(obj.message_id);
-		sendSocketData(obj);
+		await sendSocketData(obj);
 	}
 	res.send({status : "ok"});
 });
