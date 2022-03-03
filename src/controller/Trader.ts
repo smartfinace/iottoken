@@ -332,7 +332,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		obj.message_id = await sendTelegram(obj);
 		await modules.createOrders(obj);
 		//await updateGroupComment(obj.message_id);
-		sendSocketData(obj);
+		await sendSocketData(obj);
 
 	}
 
@@ -416,6 +416,7 @@ const sendTelegramReport = async (obj:any={}, objCustoms:any={}) => {
 		if(AliasChannel != "") await bot.sendMessage(AliasChannel,msg + "\n\n\nWebsite https://expressiq.co\nJoin Groups get more signal Free\nChannel : https://t.me/vsmartfx\nGroups : https://t.me/smartiqx\nProfit 1000 - 10000 pips / month\nAll Free");
 	}catch (err) {
       console.log("Connect time out");
+      return true;
   }
 	//console.log(msgTelegram);
 	return true;
