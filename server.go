@@ -8,6 +8,7 @@ import (
     "sync"
     "encoding/json"
     "github.com/google/uuid"
+    "time"
 )
 
 type Orders struct {
@@ -61,7 +62,10 @@ func handleConnection(id string, conn net.Conn, connMap *sync.Map) {
                   }else{
                     fmt.Println("Send:",key)
                   }
+                  time.Sleep(1 * time.Second)
                 }
+              }else{
+                 conn.Write([]byte("{status:\"ok\"}\n")); 
               }
               
 
