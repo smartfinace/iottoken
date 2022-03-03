@@ -88,7 +88,7 @@ app.post("/trader/tradingview", async (req: Request, res: Response) => {
 	  chart : ""
 	}
 	axios.post(`${ServiceAPI}/trader/tradingview`,data).catch(function (error) {
-		console.log("Error post API Tradingview",error);
+		console.log("Error post API Tradingview");
 	});
 	
 	res.send({status : "ok"});

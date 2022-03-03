@@ -297,6 +297,13 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		 console.log(hour[1]);
 	}
 
+	if(symbolInfo.TimeStart > 0 && hour[1] >= symbolInfo.TimeStart){
+		allowSignal = allowSignal == true ? true : allowSignal;
+	}
+	if(symbolInfo.TimeEnd > 0 && hour[1] >= symbolInfo.TimeEnd){
+		allowSignal = false;
+	}
+
 	tp = parseFloat(tp).toFixed(dig);
 	tp2 = parseFloat(tp2).toFixed(dig);
 	tp3 = parseFloat(tp3).toFixed(dig);
