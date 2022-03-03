@@ -250,6 +250,12 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 		res.send({status : "ok"});
 		return true;
 	}
+
+	var allowSignal = false;
+	if(symbolInfo.TrendFollow == type || symbolInfo.TrendFollow == "n/a"){
+		allowSignal = true;
+	}
+
 	if(chart == undefined || chart == "") chart = "";
 	open = parseFloat(open).toFixed(dig);
 	sl = parseFloat(sl).toFixed(dig);
@@ -299,7 +305,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 	open2 = parseFloat(open2).toFixed(dig);
 	open3 = parseFloat(open3).toFixed(dig);
 	
-	if(type == "buy"){
+	if(type == "buy" && allowSignal == true){
 
 		var obj = {
 			symbol : symbol,
@@ -323,7 +329,7 @@ router.post("/tradingview",async (req: Request, res: Response, next: NextFunctio
 
 	}
 
-	if(type == "sell"){
+	if(type == "sell" && allowSignal == true){
 		var obj = {
 			symbol : symbol,
 			type : "sell",
@@ -430,9 +436,9 @@ async function sendSocketData(data:any={}){
 
 	var client = new net.Socket();
 	try{
-		client.connect(9090, '127.0.0.1', function() {
+		client.connect(9090, '127.0.0.1', async function() {
 			console.log('API Send Orders');
-			client.write(JSON.stringify(order)+"\n");
+			await client.write(JSON.stringify(order)+"\n");
 			client.destroy();
 		});
 
