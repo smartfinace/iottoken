@@ -443,7 +443,7 @@ async function sendSocketData(data:any={}){
 
 	var client = new net.Socket();
 	try{
-		client.connect(9090, '127.0.0.1', async function() {
+		await client.connect(9090, '127.0.0.1', async function() {
 			console.log('API Send Orders');
 			await client.write(JSON.stringify(order)+"\n");
 			client.destroy();
