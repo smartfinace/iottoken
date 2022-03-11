@@ -46,10 +46,24 @@ const getOrdersInfo = async (id:number=0) =>{
     
 }
 
-const createOrders = async function(obj = {symbol : "", type : "", open : 0, open_2 : 0, open_3 : 0, sl : 0, tp : 0, tp_2 : 0, tp_3 : 0, message_id : 0, tfs : "", chart : ""}) {
+const getOrdersInfoByTelegram = async (id:number=0) =>{
     try {
         const conn = await connect();
-        await conn.query('INSERT INTO trader_signals SET symbol="'+obj.symbol+'", type="'+obj.type+'", open="'+obj.open+'", open_2="'+obj.open_2+'", open_3="'+obj.open_3+'", sl="'+obj.sl+'", tp="'+obj.tp+'", tp_2="'+obj.tp_2+'", tp_3="'+obj.tp_3+'", telegram_id="'+obj.message_id+'", timefream="'+obj.tfs+'", chart="'+obj.chart+'"');
+        let mysqlDate = new Date().toISOString().slice(0, 19).replace('T', ' '); 
+        const [rows, fields] = await conn.query("SELECT *, DATE_FORMAT(opentime, '%Y-%m-%d %H:%i:%s') as opentime FROM trader_signals WHERE telegram_id='"+id+"' LIMIT 1")  as any;
+        return rows[0];
+    }
+    catch (e) {
+        return {};
+    }
+    return true;
+    
+}
+
+const createOrders = async function(obj = {symbol : "", type : "", open : 0, open_2 : 0, open_3 : 0, sl : 0, tp : 0, tp_2 : 0, tp_3 : 0, message_id : 0, rely_id : "", tfs : "", chart : ""}) {
+    try {
+        const conn = await connect();
+        await conn.query('INSERT INTO trader_signals SET symbol="'+obj.symbol+'", type="'+obj.type+'", open="'+obj.open+'", open_2="'+obj.open_2+'", open_3="'+obj.open_3+'", sl="'+obj.sl+'", tp="'+obj.tp+'", tp_2="'+obj.tp_2+'", tp_3="'+obj.tp_3+'", telegram_id="'+obj.message_id+'", telegram_group_id="'+obj.rely_id+'", timefream="'+obj.tfs+'", chart="'+obj.chart+'"');
         return true;
     }
     catch (e) {
@@ -185,5 +199,5 @@ const getOrdersTelegram = async () => {
     //res.json(posts[0]);
 }
 
-export default {getOrders, getOrdersInfo, getOrdersFinish,createOrders,deleteOrders,closeOrders,getSymbols, getSymbolsInfo, getReport, updateGroups};
+export default {getOrders, getOrdersInfo, getOrdersFinish,createOrders,deleteOrders,closeOrders,getSymbols, getSymbolsInfo, getReport, updateGroups, getOrdersInfoByTelegram};
 

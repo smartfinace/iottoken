@@ -11,6 +11,7 @@ import ejs from 'ejs';
 import bodyParser from "body-parser";
 import { connect } from './database';
 import trader from './controller/Trader';
+import account from './controller/Account';
 import net from 'net';
 const client = new net.Socket();
 import * as zmq from "zeromq"
@@ -63,16 +64,19 @@ app.use((req, res, next) => {
 /* Home route */
 app.get("/", (req: Request, res: Response) => {
 	res.status(200).json({
-        message: "Conbo"
+        status: true,
+        msg : "Not found"
     });
 });
+
 app.use("/trader",trader);
 
 /** Error handling */
 app.use((req, res, next) => {
     const error = new Error('not found');
     return res.status(404).json({
-        message: error.message
+        status : false,
+        msg: error.message
     });
 });
 

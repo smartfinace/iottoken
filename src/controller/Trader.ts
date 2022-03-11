@@ -99,6 +99,60 @@ router.get('/report', async (req: Request, res: Response, next: NextFunction) =>
     res.send(data);
 });
 
+router.get("/create",async (req: Request, res: Response, next: NextFunction) => {
+	var _json = String(req.query.query);
+	let data = JSON.parse(_json);
+
+	var obj = {
+		symbol : data.symbol, 
+		type : data.type, 
+		open : data.open,
+		open_2 : data.dca1, 
+		open_3 : data.dca2, 
+		sl : data.sl, 
+		tp : data.tp,
+		tp_2 : data.tp2, 
+		tp_3 : data.tp3,  
+		message_id : data.telegram,
+		rely_id : data.relymsg,
+		tfs : data.tf, 
+		chart : ""
+	}
+	await modules.createOrders(obj);
+	res.send({status : "ok"});
+});
+
+router.get("/finish",async (req: Request, res: Response, next: NextFunction) => {
+	var _json = String(req.query.query);
+	let data = JSON.parse(_json);
+	var target = data.target;
+	var pip = data.pip;
+	var close = data.close;
+	var close_type = data.type;
+	var telegram = data.telegram;
+	let getOrderInfo = await modules.getOrdersInfo(telegram);
+	var is_access = "Free";
+	if(Number(target) > 1) is_access = "Vip";
+
+	await modules.closeOrders({
+		signals_id : getOrderInfo.id,
+		message_id : getOrderInfo.telegram_id, 
+		close : close,  
+		pip : pip, 
+		open : getOrderInfo.open, 
+		sl : getOrderInfo.sl, 
+		symbol : getOrderInfo.symbol, 
+		opentime : getOrderInfo.opentime,
+		close_type : close_type,
+		is_access : is_access,
+		action : close_type == "sl" || target == 3 ? "remove" : "hold",
+		method_hit : target
+	});
+
+	res.send({status : "ok"});
+});
+
+
 router.post("/create",async (req: Request, res: Response, next: NextFunction) => {
 	var obj = {
 		symbol : req.body.symbol, 
@@ -110,7 +164,8 @@ router.post("/create",async (req: Request, res: Response, next: NextFunction) =>
 		tp : req.body.tp,
 		tp_2 : req.body.tp2, 
 		tp_3 : req.body.tp3,  
-		message_id : 0, 
+		message_id : 0,
+		rely_id : "",
 		tfs : req.body.tf, 
 		chart : req.body.chart
 	}
