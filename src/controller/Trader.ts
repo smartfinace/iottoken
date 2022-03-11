@@ -130,7 +130,7 @@ router.get("/finish",async (req: Request, res: Response, next: NextFunction) => 
 	var close = data.close;
 	var close_type = data.type;
 	var telegram = data.telegram;
-	let getOrderInfo = await modules.getOrdersInfoByTelegram(telegram);
+	let getOrderInfo = await modules.getOrdersInfoByTelegram(Number(telegram));
 	var is_access = "Free";
 	if(Number(target) > 1) is_access = "Vip";
 
