@@ -132,7 +132,7 @@ router.get("/finish",async (req: Request, res: Response, next: NextFunction) => 
 	var telegram = data.telegram;
 	let getOrderInfo = await modules.getOrdersInfoByTelegram(Number(telegram));
 
-	
+	if(typeof getOrderInfo != "object") res.send({status : "error"});
 	var is_access = "Free";
 	if(Number(target) > 1) is_access = "Vip";
 
