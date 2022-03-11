@@ -153,7 +153,7 @@ router.get("/finish",async (req: Request, res: Response, next: NextFunction) => 
 
 	res.send({status : "ok"});
 });
-router.get("/setreply",,async (req: Request, res: Response, next: NextFunction) => {
+router.get("/setreply",async (req: Request, res: Response, next: NextFunction) => {
 	var _json = String(req.query.query);
 	let data = JSON.parse(_json);
 	var telegram = data.telegram;
