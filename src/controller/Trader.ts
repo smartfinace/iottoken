@@ -128,7 +128,7 @@ router.get("/finish",async (req: Request, res: Response, next: NextFunction) => 
 	var target = data.target;
 	var pip = data.pip;
 	var close = data.close_at;
-	var close_type = data.type;
+	var close_type = data.type.toUpperCase();
 	var telegram = data.telegram;
 	let getOrderInfo = await modules.getOrdersInfoByTelegram(Number(telegram));
 
@@ -147,10 +147,18 @@ router.get("/finish",async (req: Request, res: Response, next: NextFunction) => 
 		opentime : getOrderInfo.opentime,
 		close_type : close_type,
 		is_access : is_access,
-		action : close_type == "sl" || target == 3 ? "remove" : "hold",
+		action : close_type == "SL" || target == 3 ? "remove" : "hold",
 		method_hit : target
 	});
 
+	res.send({status : "ok"});
+});
+router.get("/setreply",,async (req: Request, res: Response, next: NextFunction) => {
+	var _json = String(req.query.query);
+	let data = JSON.parse(_json);
+	var telegram = data.telegram;
+	var reply_id = data.reply_id;
+	await modules.updateGroups(Number(telegram), Number(reply_id));
 	res.send({status : "ok"});
 });
 
