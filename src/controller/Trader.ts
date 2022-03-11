@@ -127,12 +127,12 @@ router.get("/finish",async (req: Request, res: Response, next: NextFunction) => 
 	let data = JSON.parse(_json);
 	var target = data.target;
 	var pip = data.pip;
-	var close = data.close;
+	var close = data.close_at;
 	var close_type = data.type;
 	var telegram = data.telegram;
 	let getOrderInfo = await modules.getOrdersInfoByTelegram(Number(telegram));
 
-	console.log(getOrderInfo);
+	
 	var is_access = "Free";
 	if(Number(target) > 1) is_access = "Vip";
 
