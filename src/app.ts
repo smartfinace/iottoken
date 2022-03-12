@@ -8,6 +8,9 @@ import ejs from 'ejs';
 
 import bodyParser from "body-parser";
 import api from './controller/Api';
+import shop from './controller/Shop';
+import crypto from './controller/Crypto';
+import posts from './controller/Posts';
 import * as jsonfile from "./data.json"
 //const reqSock = new Request()
 //const repSock = new zmq.Reply()
@@ -46,10 +49,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api", api);
-
-app.get("/crypto/ido.html", (req: Request, res: Response) => {
-	res.render("crypto/ido",{page : jsonfile.ido})
-});
+app.use("/shop",shop);
+app.use("/crypto",crypto);
+app.use("/posts",posts);
 
 app.get("/trader/signals.html", async (req: Request, res: Response) => {
 	let find = req.query.s;
@@ -73,10 +75,7 @@ app.get("/trader/download.html", async (req: Request, res: Response) => {
 	res.render("trader/download",{page : jsonfile.download});
 });
 
-app.get("/games.html", async (req: Request, res: Response) => {
-	
-	res.render("games/service",{page : jsonfile.games});
-});
+
 
 
 

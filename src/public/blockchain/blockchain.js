@@ -202,10 +202,11 @@ SmartApp = (function (SmartApp, $, window) {
 			  }
 		  });
 		//web3os = new Web3(web3Modal);
-
-		document.querySelector("#btn-connect").addEventListener("click", async function(){
-			await SmartApp.Blockchain.connect();
-		});
+		if($("#btn-connect").length > 0){
+			document.querySelector("#btn-connect").addEventListener("click", async function(){
+				await SmartApp.Blockchain.connect();
+			});
+		}
 		
   		//document.querySelector("#btn-disconnect").addEventListener("click", SmartApp.Blockchain.disconnect());
 

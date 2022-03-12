@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="/assets/editer/summernote-bs4.css">
 <form action="" method="post">
 <h4 class="d-flex justify-content-between">Manager Create
   <div>
@@ -48,7 +47,7 @@
       </div>
       <div class="col-md-3">
         <div class="form-group">
-          <label for="exampleInputEmail1">Sort</label>
+          <label for="exampleInputEmail1">Sort DB</label>
           <input type="text" class="form-control" name="sort_db" value="<%=rows.sort_db%>">
           
         </div>
@@ -62,7 +61,7 @@
             <option value="right">Right</option>
             <option value="bottom">Bottom</option>
             <option value="inpost">In Post</option>
-            <option value="customs">In Post</option>
+            <option value="customs">In Post</option> 
           </select>
       </div>
     </div>
@@ -90,7 +89,7 @@
       
     </div>
 
-
+ 
     <div class="form-group">
       <button type="submit" class="btn btn-primary">Submit</button>
       
@@ -99,12 +98,3 @@
   </div>
 </div>
 </form>
-<script src="/assets/editer/summernote-bs4.js" referrerpolicy="origin"></script>
-<script>
-
-  $(document).ready(function() {
-      $('.summernote').summernote({
-        height: 550
-      });
-    });
-  </script>
