@@ -36,6 +36,7 @@ func handleConnection(id string, conn net.Conn, connMap *sync.Map) {
       for scanner.Scan() {
           
             message := scanner.Text()
+            message = strings.TrimSpace(message)
             fmt.Println("Received:",id," ", message," - ",s[0])
             var obj Orders
             err := json.Unmarshal([]byte(message), &obj)

@@ -1,0 +1,33 @@
+<h4 class="d-flex justify-content-between">Manager Block
+	<div>
+		<a href="/template/create" class="btn btn-primary btn-sm">Create</a>
+		<a href="/template/render" class="btn btn-primary btn-sm">Render Session</a>
+
+	</div>
+</h4>
+<div class="table-responsive">
+<table class="table table-hover table-bordered table-striped">
+	<thead class="thead-primary">
+		<th>#</th>
+		<th>Name</th>
+		<th>Display</th>
+		<th>Time Start</th>
+		<th>Time End</th>
+		
+		<th></th>
+	</thead>
+	<% rows.forEach(function(data) { %>
+	<tr>
+		<td><%=data.sort_db%></td>
+		<td><%=data.name%></td>
+		<td><%=data.display%></td>
+		<td><%=data.start_time%></td>
+		<td><%=data.end_time%></td>
+		<td class="text-right">
+			<a href="/template/update/<%=data.id%>" class="btn btn-primary btn-sm">Edit</a>
+			<a href="/template/delete/<%=data.id%>" class="btn btn-primary btn-sm">Delete</a>
+		</td>
+	</tr>
+	<% }); %>
+</table>
+</div>

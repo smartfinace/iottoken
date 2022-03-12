@@ -9,6 +9,8 @@ import bodyParser from "body-parser";
 
 import * as jsonfile from "./data.json"
 import axios, {AxiosResponse} from 'axios';
+import api from './controller/Api';
+import template from './controller/Templates';
 //const reqSock = new Request()
 //const repSock = new zmq.Reply()
 
@@ -61,6 +63,8 @@ app.set('view engine', 'html');
 app.get("/", (req: Request, res: Response) => {
 	res.render("index",{page : jsonfile.main})
 });
+app.use("/template",template);
+
 app.get("/trader/signals.html", async (req: Request, res: Response) => {
 	let signal: AxiosResponse = await axios.get(`${ServiceAPI}/trader/signal?l=100`);
 	res.render("trader/signals",{page : jsonfile.main, order : signal.data});
