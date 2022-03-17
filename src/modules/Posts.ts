@@ -1,7 +1,7 @@
 import { connect } from '../database'
-const dbName = "";
-const searchField = "";
-const prikeyField = "";
+const dbName = "posts";
+const searchField = "name";
+const prikeyField = "id";
 const getItem = async(id:number=0) =>{
 	try {
         const conn = await connect();
@@ -16,14 +16,30 @@ const getItem = async(id:number=0) =>{
     return true;
 }
 
-const listItems = async(limit:number=8,page:number=1, search:any="") =>{
+const getItemByUrl = async(id:any="") =>{
+    try {
+        const conn = await connect();
+        
+        var sql = `SELECT * FROM ${dbName} WHERE url=${id}`;
+        const [rows, fields] = await conn.query(sql)  as any;
+        return rows[0];
+    }
+    catch (e) {
+        return {};
+    }
+    return true;
+}
+
+
+
+const listItems = async(limit:number=8,page:number=1, type:any="Post", search:any="") =>{
 	var sql = "";
     try {
     const conn = await connect();
     if(search == ""){
-        sql = `SELECT * FROM ${dbName} ORDER BY id DESC LIMIT ${limit}`;
+        sql = `SELECT * FROM ${dbName} WHERE type='${type}' ORDER BY id DESC LIMIT ${limit}`;
     }else{
-        sql = `SELECT * FROM ${dbName} WHERE ${searchField} LIKE '%"+search+"%'  ORDER BY id DESC LIMIT ${limit}`;
+        sql = `SELECT * FROM ${dbName} WHERE type='${type}' AND ${searchField} LIKE '%"+search+"%'  ORDER BY id DESC LIMIT ${limit}`;
     }
     const [rows, fields] = await conn.query(sql)  as any;
     
@@ -73,4 +89,4 @@ const deleteItem = async(id:number=0) =>{
     return true;
 }
 
-export default {getItem, listItems, createItem, updateItem, deleteItem};
+export default {getItem,getItemByUrl, listItems, createItem, updateItem, deleteItem};

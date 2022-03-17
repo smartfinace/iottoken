@@ -76,15 +76,15 @@ gulp.task('web3', function() {
             //.pipe(uglify())
             .pipe(gulp.dest("./dist/public/assets/js"))
             .pipe(browserSync.stream());
-    gulp.src(['./src/public/blockchain/blockchain.js'])
+    gulp.src(['./src/public/bs_js/blockchain.js'])
             .pipe(concat('blockchain.js'))
             //.pipe(uglify())
             .pipe(gulp.dest("./dist/public/assets/js"))
             .pipe(browserSync.stream());
 
     return gulp.src([
-            './src/public/blockchain/token.js',
-            './src/public/blockchain/ido.js'
+            './src/public/bs_js/token.js',
+            './src/public/bs_js/ido.js'
             
             //'dev/blockchain_dev.js',
             //'dev/token.js',

@@ -2,8 +2,8 @@
         <%- include("./../components/header.html",{
             title : "SMART AI SIGNAL<br class=\"d-none d-xl-block\"> VIP AI Signal Forex, Crypto, Stock",
             description : "Free copy trade service, Win rate 80-90%",
-            banner : "./banner_page.html",
-            html : '<div class="cpn-action"><ul class="cpn-links animated" data-animate="fadeInUp" data-delay="1.45"><li><a class="link link-primary" href="https://one.exness.link/a/tjm6vjm6" target="_blank"><em class="link-icon icon-circle ti ti-files"></em> <span>Open Account</span></a></li><li><a class="link link-primary" href="/crypto/ido.html"><em class="link-icon icon-circle ti ti-file"></em> <span>Buy Smart Token</span></a></li><li><a class="link link-primary video-play" href="/trader/copytrade.html"><em class="link-icon icon-circle ti ti-control-play"></em> <span>Copy Trade</span></a></li></ul></div>'
+            banner : "./banner_crypto.html",
+            html : '<div class="cpn-btns"><ul class="btn-grp justify-content-center animated" data-animate="fadeInUp" data-delay="1.45"><li><a href="https://one.exness.link/a/tjm6vjm6" target="_blank" class="btn btn-md btn-round btn-with-icon btn-light"><span>Open Account</span><em class="icon fas fa-angle-double-right"></em></a></li><li><a href="/trader/copytrade.html" class="btn btn-md btn-round btn-with-icon btn-light"><span>Download Tool</span><em class="icon fas fa-angle-double-right"></em></a></li><li><a href="/crypto/ido.html" class="btn btn-md btn-round btn-with-icon btn-light"><span>Buy Token</span><em class="icon fas fa-angle-double-right"></em></a></li></ul></div>'
         }) %>
 </header>
 
@@ -144,7 +144,7 @@
                       <thead>
                         <tr>
 
-                          <th scope="col" colspan="2">Symbol</th>
+                          <th scope="col">Symbol</th>
                           
                           <th scope="col">Open</th>
                           <th scope="col">SL</th>
@@ -156,15 +156,20 @@
                       <tbody>
                         <% signalFinish.forEach(function(data) { %>
                         <tr>
-                          <td><%= data.close_type %></td>
-                          <td class="<% if(data.close_type === 'SL'){ %>text-danger<% } else{ %>text-success<% } %>"><b><%= data.symbol %></b> (<span style="font-weight: bold; font-size:8px;color:red;"><%= data.is_access %></span>)</td>
+                          
+                          <td>
+                            <div  class="position-relative">
+                                 <b><%= data.symbol %></b>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-<% if(data.is_access === 'Free'){ %>secondary<% } else{ %>warning<% } %>"><%= data.is_access %></span>
+                            </div>
+                            </td>
                           
                           <td><%= data.open %></td>
                           <td><%= data.sl %></td>
-                          <td><%= data.close_at %></td>
+                          <td><div class="d-flex justify-content-between position-relative"><div><%= data.close_at %></div> <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-<% if(data.close_type === 'SL'){ %>danger<% } else{ %>info<% } %>"><%= data.close_type %></span></div></td>
                           <td><%= data.profit_pip %></td>
-                          <td><%= data.opentime %></td>
-                          <td><%= data.closetime %></td>
+                          <td class="text-right"><%= data.opentime %></td>
+                          <td class="text-right"><%= data.closetime %></td>
                         </tr>
                         <% }); %>
                         

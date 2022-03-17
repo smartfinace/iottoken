@@ -8,11 +8,59 @@ router.get("/",async (req: Request, res: Response, next: NextFunction) => {
 	res.render("crypto/list",{page : page, data : data});
 });
 
-router.get("/info-(:id).html",async (req: Request, res: Response, next: NextFunction) => {
+
+router.get("/presell",async (req: Request, res: Response, next: NextFunction) => {
 	var id = Number(req.params.id);
 	let data = await modules.getItem(id);
 	res.render("crypto/info",{page : page, item : data});
 });
+
+router.get("/ido",async (req: Request, res: Response, next: NextFunction) => {
+	var id = Number(req.params.id);
+	let data = await modules.getItem(id);
+	res.render("crypto/ido",{page : page, item : data});
+});
+
+
+router.get("/farm",async (req: Request, res: Response, next: NextFunction) => {
+	var id = Number(req.params.id);
+	let data = await modules.getItem(id);
+	res.render("crypto/info",{page : page, item : data});
+});
+
+
+router.get("/staking",async (req: Request, res: Response, next: NextFunction) => {
+	var id = Number(req.params.id);
+	let data = await modules.getItem(id);
+	res.render("crypto/info",{page : page, item : data});
+});
+
+
+router.get("/bank",async (req: Request, res: Response, next: NextFunction) => {
+	var id = Number(req.params.id);
+	let data = await modules.getItem(id);
+	res.render("crypto/info",{page : page, item : data});
+});
+
+
+router.get("/pool",async (req: Request, res: Response, next: NextFunction) => {
+	var id = Number(req.params.id);
+	let data = await modules.getItem(id);
+	res.render("crypto/info",{page : page, item : data});
+});
+
+router.get("/swap",async (req: Request, res: Response, next: NextFunction) => {
+	var id = Number(req.params.id);
+	let data = await modules.getItem(id);
+	res.render("crypto/info",{page : page, item : data});
+});
+
+router.get("/airdrop",async (req: Request, res: Response, next: NextFunction) => {
+	var id = Number(req.params.id);
+	let data = await modules.getItem(id);
+	res.render("crypto/info",{page : page, item : data});
+});
+
 
 //Export Default Router
 export = router;

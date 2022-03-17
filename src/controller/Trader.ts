@@ -10,7 +10,7 @@ const channel = jsonfile.telegram.channel;
 const bot = new TelegramBot(token, {polling: false});
 import axios, {AxiosResponse} from 'axios';
 const sock = new zmq.Request
-
+const ServiceAPI = "http://127.0.0.1:8083";
 const net = require('net');
 
 
@@ -63,6 +63,8 @@ const updateGroupComment = async (findSignal:number) => {
 	
 };
 
+
+
 router.post('/updateg', async (req: Request, res: Response, next: NextFunction) => {
 		var id = Number(req.body.id);
 	  await updateGroup(id);
@@ -76,6 +78,29 @@ router.post('/update-telegram', async (req: Request, res: Response, next: NextFu
 
     res.send("ok");
 });
+
+router.get("/signals.html", async (req: Request, res: Response) => {
+	let find = req.query.s;
+	let group = req.query.g;
+	
+	
+	let signal: AxiosResponse = await axios.get(`${ServiceAPI}/trader/signal?l=8`);
+	let signalFinish: AxiosResponse = await axios.get(`${ServiceAPI}/trader/complete`);
+	let symbol: AxiosResponse = await axios.get(`${ServiceAPI}/trader/symbol`);
+	let report: AxiosResponse = await axios.get(`${ServiceAPI}/trader/report`);
+	res.render("trader/signals",{page : jsonfile.trader, signal : signal.data, signalFinish:signalFinish.data, symbol : symbol.data, report : report.data});
+});
+
+router.get("/copytrade.html", async (req: Request, res: Response) => {
+	
+	res.render("trader/copytrade",{page : jsonfile.copytrade});
+});
+
+router.get("/download.html", async (req: Request, res: Response) => {
+	
+	res.render("trader/download",{page : jsonfile.download});
+});
+
 
 router.get('/signal', async (req: Request, res: Response, next: NextFunction) => {
 

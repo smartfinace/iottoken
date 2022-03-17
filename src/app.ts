@@ -11,12 +11,15 @@ import api from './controller/Api';
 import shop from './controller/Shop';
 import crypto from './controller/Crypto';
 import posts from './controller/Posts';
+import pages from './controller/Pages';
+import trader from './controller/Trader';
+
 import * as jsonfile from "./data.json"
 //const reqSock = new Request()
 //const repSock = new zmq.Reply()
 
 import axios, {AxiosResponse} from 'axios';
-const ServiceAPI = "http://127.0.0.1:8083";
+
 
 
 
@@ -51,30 +54,9 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api", api);
 app.use("/shop",shop);
 app.use("/crypto",crypto);
-app.use("/posts",posts);
-
-app.get("/trader/signals.html", async (req: Request, res: Response) => {
-	let find = req.query.s;
-	let group = req.query.g;
-	
-	
-	let signal: AxiosResponse = await axios.get(`${ServiceAPI}/trader/signal?l=8`);
-	let signalFinish: AxiosResponse = await axios.get(`${ServiceAPI}/trader/complete`);
-	let symbol: AxiosResponse = await axios.get(`${ServiceAPI}/trader/symbol`);
-	let report: AxiosResponse = await axios.get(`${ServiceAPI}/trader/report`);
-	res.render("trader/signals",{page : jsonfile.trader, signal : signal.data, signalFinish:signalFinish.data, symbol : symbol.data, report : report.data});
-});
-
-app.get("/trader/copytrade.html", async (req: Request, res: Response) => {
-	
-	res.render("trader/copytrade",{page : jsonfile.copytrade});
-});
-
-app.get("/trader/download.html", async (req: Request, res: Response) => {
-	
-	res.render("trader/download",{page : jsonfile.download});
-});
-
+app.use("/post",posts);
+app.use("/page",pages);
+app.use("/trader",trader);
 
 
 
@@ -83,7 +65,7 @@ app.get("/trader/download.html", async (req: Request, res: Response) => {
 /** Error handling */
 app.use((req, res, next) => {
    
-    return res.status(404).render("404",{page : jsonfile.games});
+    return res.status(404).render("404",{page : {title : "Error 404",description : "Page not found"}});
 });
 
 

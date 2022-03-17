@@ -133,6 +133,7 @@ SmartApp = (function (SmartApp, $, window) {
     SmartApp.tokenIDO.Init = async () => {
         var ido = SmartApp.tokenIDO;
         await blockchain.init();
+        if(SmartApp.Blockchain.isConnect == false) return;
         await ido.loadContracts();
         console.log(contractIdo);
         await ido.sendinfo();
